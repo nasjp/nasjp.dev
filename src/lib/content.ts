@@ -29,7 +29,9 @@ export const getContentBySlug = async (
   }
 
   const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
+  const { data, content, excerpt } = matter(fileContents, {
+    excerpt_separator: "\n\n",
+  });
 
   const imageData = await getImageData(genMetmuseumObjectId(realSlug));
 
@@ -44,7 +46,7 @@ export const getContentBySlug = async (
     category: category,
     status: status,
     content: content,
-    excerpt: (data.excerpt as string) || "",
+    excerpt: excerpt || "",
     imageObjectID: imageData.objectID,
     imageTitle: imageData.title,
     imageArtistDisplayName: imageData.artistDisplayName,
@@ -66,4 +68,9 @@ export const getAllContents = async (): Promise<Content[]> => {
       content1.datetime > content2.datetime ? -1 : 1,
     );
   return contents;
+};
+
+export const getThreeContents = async (): Promise<Content[]> => {
+  const contents = await getAllContents();
+  return contents.slice(0, 3);
 };
