@@ -9,17 +9,15 @@ interface ContentSummaryProps {
 
 export const ContentSummary = async ({ content }: ContentSummaryProps) => {
   return (
-    <>
-      <div className="space-y-6">
+    <Link href={`/${content.slug}`} passHref legacyBehavior>
+      <div className="hover:bg-gray-100">
         <ContentHeader {...content} />
         <div className="prose max-w-none">
           <Markdown source={content.excerpt} />
           <p>...</p>
-          <div className="text-right">
-            <Link href={`/${content.slug}`}>よむ?</Link>
-          </div>
         </div>
+        <div className="h-12" />
       </div>
-    </>
+    </Link>
   );
 };

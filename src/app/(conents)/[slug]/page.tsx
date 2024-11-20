@@ -23,7 +23,7 @@ export const generateMetadata = async (
   }
 
   return {
-    title: `${content.title} | nasjp's website`,
+    title: `${content.title} | nasjp.dev`,
     description: content.excerpt,
   };
 };

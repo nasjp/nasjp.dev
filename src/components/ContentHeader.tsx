@@ -19,8 +19,8 @@ export const ContentHeader = async ({
 }: ContentHeaderProps) => {
   return (
     <>
-      <h2 className="text-3xl font-bold">{title}</h2>
-      <div className="text-sm text-gray-600">
+      <h2 className="text-3xl font-bold mb-4 pt-8">{title}</h2>
+      <div className="text-sm text-gray-600 mb-4">
         {datetime.toLocaleDateString("ja-JP")}
       </div>
       <Image
@@ -30,7 +30,7 @@ export const ContentHeader = async ({
         height={600}
         className="w-full md:w-1/3 h-auto mx-auto"
       />
-      <div className="text-sm text-gray-600">
+      <div className="text-sm text-gray-600 mb-4">
         {imageTitle} ({imageArtistDisplayName}, {imageObjectDate})
       </div>
     </>
