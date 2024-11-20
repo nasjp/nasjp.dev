@@ -61,18 +61,21 @@ export default function ClassicBrowserLayout({
           <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1">
             Document Title:
           </div>
-          <div className="text-xs px-1 flex-1 bg-white border border-[#808080]">
-            <p className="text-clip overflow-hidden">
-              {pathTitleMap[pathname] ?? titles[pathname] ?? pathname}
-            </p>
+          <div className="text-xs px-1 flex-1 bg-white border border-[#808080] overflow-x-auto">
+            {(pathTitleMap[pathname] ?? titles[pathname] ?? pathname).length >
+            30
+              ? `${(
+                  pathTitleMap[pathname] ?? titles[pathname] ?? pathname
+                ).slice(0, 35)}...`
+              : (pathTitleMap[pathname] ?? titles[pathname] ?? pathname)}
           </div>
         </div>
         <div className="flex items-center px-1 py-px border-t border-l border-[#dfdfdf] border-b border-r border-[#808080]">
           <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1">
             Document Path:
           </div>
-          <div className="text-xs px-1 flex-1 bg-white border border-[#808080]">
-            <p className="text-clip overflow-hidden">{pathname}</p>
+          <div className="text-xs px-1 flex-1 bg-white border border-[#808080] overflow-x-auto">
+            {pathname.length > 20 ? `${pathname.slice(0, 35)}...` : pathname}
           </div>
         </div>
       </div>
