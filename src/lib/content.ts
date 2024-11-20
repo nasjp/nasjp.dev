@@ -74,3 +74,14 @@ export const getThreeContents = async (): Promise<Content[]> => {
   const contents = await getAllContents();
   return contents.slice(0, 3);
 };
+
+export const getPathTitleMap = async (): Promise<Record<string, string>> => {
+  const contents = await getAllContents();
+  return contents.reduce(
+    (acc, content) => {
+      acc[`/${content.slug}`] = content.title;
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+};
