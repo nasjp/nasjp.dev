@@ -58,26 +58,32 @@ export default function ClassicBrowserLayout({
 
       <div className="grid gap-0 bg-[#c0c0c0]">
         <div className="flex items-center px-1 py-px border-t border-l border-[#dfdfdf] border-b border-r border-[#808080]">
-          <div className="text-xs whitespace-nowrap">Document Title:</div>
+          <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1">
+            Document Title:
+          </div>
           <div className="text-xs px-1 flex-1 bg-white border border-[#808080]">
-            {pathTitleMap[pathname] ?? titles[pathname] ?? pathname}
+            <p className="text-clip overflow-hidden">
+              {pathTitleMap[pathname] ?? titles[pathname] ?? pathname}
+            </p>
           </div>
         </div>
         <div className="flex items-center px-1 py-px border-t border-l border-[#dfdfdf] border-b border-r border-[#808080]">
-          <div className="text-xs whitespace-nowrap">Document URL:</div>
+          <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1">
+            Document Path:
+          </div>
           <div className="text-xs px-1 flex-1 bg-white border border-[#808080]">
-            {`https://www.nasjp.dev${pathname}`}
+            <p className="text-clip overflow-hidden">{pathname}</p>
           </div>
         </div>
       </div>
 
-      <ScrollArea className="flex-1 w-full bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] p-1 overflow-auto">
+      <div className="flex-1 w-full bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] p-1 overflow-y-auto">
         <div className="border-t border-l border-white border-b border-r border-[#808080] p-4 w-full min-h-[calc(100vh-150px)]">
-          <div className="border-2 border-[#808080] p-4 sm:p-6 md:p-8 w-full bg-[#d4d0c8] max-w-3xl mx-auto">
+          <div className="border-2 border-[#808080] p-4 sm:p-6 md:p-8 bg-[#d4d0c8] w-full max-w-xl mx-auto">
             {children}
           </div>
         </div>
-      </ScrollArea>
+      </div>
 
       <div className="h-8 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] flex items-center justify-between px-2">
         <div className="text-[10px]">

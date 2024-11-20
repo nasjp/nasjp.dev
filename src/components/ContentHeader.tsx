@@ -26,11 +26,11 @@ export const ContentHeader = async ({
       <Image
         src={imageUrl}
         alt={imageTitle}
-        width={800}
-        height={600}
-        className="w-full md:w-1/3 h-auto mx-auto"
+        width={400}
+        height={400}
+        className="max-w-96 w-full mx-auto"
       />
-      <div className="text-sm text-gray-600 mb-4">
+      <div className="text-sm text-gray-600 mb-8">
         {imageTitle} ({imageArtistDisplayName}, {imageObjectDate})
       </div>
     </>
