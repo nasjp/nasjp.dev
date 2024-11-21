@@ -17,6 +17,8 @@ const titles: Record<string, string> = {
   "/about": "nasjp.dev について",
 };
 
+const HEADER_HEIGHT = 106; // ヘッダーの固定高さ（px）
+
 export function ClassicBrowserLayout({
   children,
   pathTitleMap,
@@ -24,8 +26,8 @@ export function ClassicBrowserLayout({
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col h-screen max-h-screen bg-[#c0c0c0] border-2 border-[#dfdfdf] border-b-[#404040] border-r-[#404040]">
-      <div className="flex flex-col sticky top-0 z-50 bg-[#c0c0c0]">
+    <div className="flex flex-col h-screen max-h-screen bg-[#c0c0c0]">
+      <div className="flex flex-col fixed top-0 left-0 right-0 z-50 bg-[#c0c0c0]">
         <div className="flex items-center px-1 bg-[#000080] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] text-white text-xs h-6">
           <Link href="/" className="flex items-center gap-1">
             <div className="w-4 h-4 flex items-center justify-center bg-[#008000] border border-black text-white text-[10px]">
@@ -120,9 +122,12 @@ export function ClassicBrowserLayout({
         </div>
       </div>
 
-      <div className="flex-1 w-full bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] p-1">
+      <div
+        className="flex-1 w-full bg-[#c0c0c0] p-1"
+        style={{ marginTop: `${HEADER_HEIGHT}px` }}
+      >
         <div className="border-t border-l border-white border-b border-r border-[#808080] p-4 w-full">
-          <div className="border-2 border-[#808080] p-4 sm:p-6 md:p-8 bg-[#d4d0c8] w-full max-w-xl mx-auto">
+          <div className="border-2 border-[#808080] p-4 sm:p-6 md:p-8 bg-[#d4d0c8] w-full max-w-3xl mx-auto">
             {children}
           </div>
         </div>
