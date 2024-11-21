@@ -28,6 +28,20 @@ export default async function Page() {
         </p>
 
         <div className="mt-8">
+          <div className="font-bold mb-2">連絡先</div>
+          <ul className="list-disc pl-6 space-y-1">
+            <li>
+              <a
+                href="mailto:y.softvalley@gmail.com"
+                className="text-blue-600 hover:underline"
+              >
+                y.softvalley@gmail.com
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="mt-8">
           <div className="font-bold mb-2">nasjp.devについて</div>
           <ul className="list-disc pl-6 space-y-1">
             <li>
@@ -39,7 +53,7 @@ export default async function Page() {
         </div>
 
         <div className="mt-8">
-          <div className="font-bold mb-2">nasjp.devの記事</div>
+          <div className="font-bold mb-2">記事</div>
           <ul className="list-disc pl-6 space-y-1">
             {articles.map((article) => (
               <li key={article.slug} className="text-blue-600 hover:underline">
