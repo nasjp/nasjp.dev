@@ -41,13 +41,13 @@ const portfolioItems = [
 
 export default function PortfolioPage() {
   return (
-    <div className="container mx-auto py-12">
+    <>
       <h2 className="text-3xl font-bold mb-4 pt-8">ポートフォリオ</h2>
       <div className="space-y-4">
         {portfolioItems.map((item) => (
           <PortfolioCard key={item.service} {...item} />
         ))}
       </div>
-    </div>
+    </>
   );
 }
