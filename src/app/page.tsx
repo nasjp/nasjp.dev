@@ -45,8 +45,8 @@ export default async function Page() {
           <div className="font-bold mb-2">nasjp.devについて</div>
           <ul className="list-disc pl-6 space-y-1">
             <li>
-              <Link href="/about" className="text-blue-600 hover:underline">
-                about
+              <Link href="/portfolio" className="text-blue-600 hover:underline">
+                ポートフォリオ
               </Link>
             </li>
           </ul>
