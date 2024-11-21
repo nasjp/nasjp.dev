@@ -12,6 +12,8 @@ export const Logo = ({ className }: LogoProps) => {
         xmlns="http://www.w3.org/2000/svg"
         aria-labelledby="title description"
         role="img"
+        width="400"
+        height="150"
       >
         <title id="title">nasjp.dev</title>
         <desc id="description">
