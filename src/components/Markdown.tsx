@@ -44,7 +44,7 @@ const components = {
   code: (props: JSX.IntrinsicAttributes & { children?: React.ReactNode }) => {
     return (
       <code
-        className="not-prose bg-gray-100 text-red-500 text-sm py-1 px-2 rounded-md mx-2 break-all"
+        className="not-prose bg-gray-100 text-red-500 text-sm py-1 px-2 rounded-md mx-2 my-1 break-all inline-block"
         {...props}
       />
     );
