@@ -11,7 +11,7 @@ export const ContentSummary = async ({ content }: ContentSummaryProps) => {
   return (
     <Link href={`/${content.slug}`} passHref legacyBehavior>
       <div className="hover:bg-gray-100">
-        <ContentHeader {...content} />
+        <ContentHeader content={content} />
         <div className="prose max-w-none">
           <Markdown source={content.excerpt} />
           <p>...</p>

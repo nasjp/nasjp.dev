@@ -9,7 +9,7 @@ interface ContentProps {
 export const Content = async ({ content }: ContentProps) => {
   return (
     <div className="w-full max-w-xl">
-      <ContentHeader {...content} />
+      <ContentHeader content={content} />
       <div className="prose-sm">
         <Markdown source={content.content} />
       </div>

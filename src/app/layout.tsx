@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
-import ClassicBrowserLayout from "@/components/ClassiBrowserLayout";
+import ClassicBrowserLayout from "@/components/ClassicBrowserLayout";
 import { getPathTitleMap } from "@/lib/content";
 
 const notoSerifJP = Noto_Serif_JP({

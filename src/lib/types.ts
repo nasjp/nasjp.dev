@@ -17,4 +17,6 @@ export type Content = {
   imageIsPublicDomain: boolean;
   rawImageUrl: string;
   imageUrl: string;
+  imageWidth: number;
+  imageHeight: number;
 };

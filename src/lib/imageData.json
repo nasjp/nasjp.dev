@@ -1,0 +1,26 @@
+{
+  "006-rethink-10x-programmer": {
+    "width": 2108,
+    "height": 3782
+  },
+  "005-shinjuku-meetup-v0": {
+    "width": 3792,
+    "height": 4000
+  },
+  "004-gmail-api-with-service-account-and-nodemailer": {
+    "width": 3000,
+    "height": 4000
+  },
+  "003-minimum-prettier": {
+    "width": 3811,
+    "height": 2818
+  },
+  "002-website": {
+    "width": 4000,
+    "height": 3034
+  },
+  "001-helloworld": {
+    "width": 2475,
+    "height": 3722
+  }
+}
