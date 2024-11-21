@@ -25,7 +25,7 @@ export default function ClassicBrowserLayout({
 
   return (
     <div className="flex flex-col h-screen max-h-screen bg-[#c0c0c0] border-2 border-[#dfdfdf] border-b-[#404040] border-r-[#404040]">
-      <div className="flex flex-col">
+      <div className="flex flex-col sticky top-0 z-50 bg-[#c0c0c0]">
         <div className="flex items-center px-1 bg-[#000080] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] text-white text-xs h-6">
           <Link href="/" className="flex items-center gap-1">
             <div className="w-4 h-4 flex items-center justify-center bg-[#008000] border border-black text-white text-[10px]">
