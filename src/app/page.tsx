@@ -11,16 +11,35 @@ export default async function Page() {
       </div>
 
       <div className="space-y-4 text-sm">
+        <p>こんにちは、nasjp.devです。</p>
         <p>
-          nasjp.devへようこそ。これは、ただの個人的なブログであり、特に意味深い目的があるわけではありません。このデザインは、NCSA
-          Mosaicというインターネット初期のブラウザを参考にしていますが、私がMosaicのローンチをリアルタイムで体験しているわけではありません。それどころか、Mosaicが世に出た時、私はまだ生まれてもいませんでした。そのため、このデザインに特別な思い入れがあるわけでもなく、軽い気持ちで作ったものです。
-          このブログは、私自身の技術的な試行錯誤や思いつきを気軽にまとめる場所として作りました。
+          <span className="font-bold">ソフトウェアエンジニア</span>
+          として7年間の経験を積み、現在は株式会社コルモアナでCTOを務めています。
+        </p>
+        <p>
+          これまでに、生体認証を活用した本人確認サービスを提供するLiquidにて、「認証を空気化する」というミッションを掲げ、サービスのローンチから上場までを経験しました。
+        </p>
+        <p>
+          WEBアプリケーションの<span className="font-bold">0から1</span>
+          の開発が最も得意です。
+        </p>
+        <p>
+          シンプルで効果的な技術を通じて、新しい価値を生み出すことを目指しています。
         </p>
 
-        <p className="italic">nasjp.devの記事は下記から閲覧できます。</p>
+        <div className="mt-8">
+          <div className="font-bold mb-2">nasjp.devについて</div>
+          <ul className="list-disc pl-6 space-y-1">
+            <li>
+              <Link href="/about" className="text-blue-600 hover:underline">
+                about
+              </Link>
+            </li>
+          </ul>
+        </div>
 
         <div className="mt-8">
-          <div className="font-bold mb-2">nasjp.devの記事:</div>
+          <div className="font-bold mb-2">nasjp.devの記事</div>
           <ul className="list-disc pl-6 space-y-1">
             {articles.map((article) => (
               <li key={article.slug} className="text-blue-600 hover:underline">

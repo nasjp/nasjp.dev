@@ -17,7 +17,7 @@ const titles: Record<string, string> = {
   "/about": "nasjp.dev について",
 };
 
-export default function ClassicBrowserLayout({
+export function ClassicBrowserLayout({
   children,
   pathTitleMap,
 }: ClassicBrowserLayoutProps) {

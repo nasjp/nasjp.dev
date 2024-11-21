@@ -16,9 +16,7 @@ export const Logo = ({ className }: LogoProps) => {
         height="150"
       >
         <title id="title">nasjp.dev</title>
-        <desc id="description">
-          nasjp.devのロゴ。テクスチャのある灰色の背景に黒字でnasjp.devという文字と青い円のデザイン。
-        </desc>
+        <desc id="description">nasjp.dev</desc>
 
         <defs>
           <pattern
@@ -48,27 +46,29 @@ export const Logo = ({ className }: LogoProps) => {
         />
 
         <text
-          x="70"
+          x="50"
           y="30"
           fontSize="16"
           fontFamily="Arial, sans-serif"
           fontWeight="bold"
           fill="black"
         >
-          B
+          P
         </text>
+
+        <text
+          x="100"
+          y="30"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          R
+        </text>
+
         <text
           x="150"
-          y="30"
-          fontSize="16"
-          fontFamily="Arial, sans-serif"
-          fontWeight="bold"
-          fill="black"
-        >
-          L
-        </text>
-        <text
-          x="230"
           y="30"
           fontSize="16"
           fontFamily="Arial, sans-serif"
@@ -78,14 +78,45 @@ export const Logo = ({ className }: LogoProps) => {
           O
         </text>
         <text
-          x="310"
+          x="200"
           y="30"
           fontSize="16"
           fontFamily="Arial, sans-serif"
           fontWeight="bold"
           fill="black"
         >
-          G
+          D
+        </text>
+        <text
+          x="250"
+          y="30"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          U
+        </text>
+        <text
+          x="300"
+          y="30"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          C
+        </text>
+
+        <text
+          x="350"
+          y="30"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          T
         </text>
 
         <text
@@ -104,14 +135,113 @@ export const Logo = ({ className }: LogoProps) => {
         <circle cx="213" cy="74" r="2.5" fill="#4A90E2" />
 
         <text
-          x="200"
+          x="50"
           y="125"
-          fontSize="12"
+          fontSize="16"
           fontFamily="Arial, sans-serif"
-          textAnchor="middle"
+          fontWeight="bold"
           fill="black"
         >
-          To improve is to change; to be perfect is to change often.
+          D
+        </text>
+
+        <text
+          x="80"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          E
+        </text>
+
+        <text
+          x="110"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          V
+        </text>
+
+        <text
+          x="170"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          S
+        </text>
+
+        <text
+          x="200"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          E
+        </text>
+
+        <text
+          x="230"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          R
+        </text>
+
+        <text
+          x="260"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          V
+        </text>
+
+        <text
+          x="294"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          I
+        </text>
+
+        <text
+          x="320"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          C
+        </text>
+
+        <text
+          x="350"
+          y="125"
+          fontSize="16"
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+          fill="black"
+        >
+          E
         </text>
       </svg>
     </div>
