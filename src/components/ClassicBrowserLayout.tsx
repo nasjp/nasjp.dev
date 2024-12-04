@@ -58,12 +58,7 @@ export function ClassicBrowserLayout({
             <Search className="h-4 w-4" />
             <span className="sr-only">検索</span>
           </Button>
-          <a
-            href="https://x.com/nasjp_dev"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center"
-          >
+          <a href="https://x.com/nasjp_dev" target="_blank" rel="noreferrer">
             <Button
               variant="secondary"
               size="icon"
@@ -82,12 +77,7 @@ export function ClassicBrowserLayout({
               </svg>
             </Button>
           </a>
-          <a
-            href="https://github.com/nasjp"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center"
-          >
+          <a href="https://github.com/nasjp" target="_blank" rel="noreferrer">
             <Button
               variant="secondary"
               size="icon"
