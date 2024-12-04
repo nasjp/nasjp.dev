@@ -31,8 +31,9 @@ export function PortfolioCard({
           <Image
             src={image}
             alt={`${service} サムネイル`}
-            layout="fill"
-            objectFit="cover"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
           />
         </div>
         <div className="flex justify-start">
