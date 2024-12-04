@@ -41,6 +41,11 @@ const getLanguageFromFilename = (filename: string): string => {
 };
 
 const components = {
+  a: (props: JSX.IntrinsicAttributes & { children?: React.ReactNode }) => {
+    return (
+      <a className="text-blue-500 underline hover:text-blue-700" {...props} />
+    );
+  },
   code: (props: JSX.IntrinsicAttributes & { children?: React.ReactNode }) => {
     return (
       <code
