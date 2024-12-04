@@ -3,7 +3,6 @@ import path from "node:path";
 import { genMetmuseumObjectId, getImageData } from "@/lib/metmuseum";
 import type { Content, ContentType, StatusType } from "@/lib/types";
 import matter from "gray-matter";
-import imageDataJson from "./imageData.json";
 
 interface ImageSize {
   [key: string]: {
@@ -11,8 +10,6 @@ interface ImageSize {
     height: number;
   };
 }
-
-const imageSize: ImageSize = imageDataJson;
 
 const containsDraft = process.env.NEXT_PUBLIC_CONTAINS_DRAFT === "true";
 
@@ -64,8 +61,8 @@ export const getContentBySlug = async (
     imageIsPublicDomain: imageData.isPublicDomain,
     rawImageUrl: imageData.primaryImage,
     imageUrl: `/contents/images/${realSlug}.jpg`,
-    imageWidth: imageSize[realSlug].width,
-    imageHeight: imageSize[realSlug].height,
+    imageWidth: imageData.imageWidth,
+    imageHeight: imageData.imageHeight,
   };
 };
 

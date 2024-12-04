@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
-import { getAllContents } from "../lib/content";
-
+import { getContentBySlug, getContentSlugs } from "../lib/content";
+import { getImageData } from "../lib/metmuseum";
 const publicDirectory = path.join(process.cwd(), "public");
 const imagesDirectory = path.join(publicDirectory, "contents", "images");
 
@@ -41,28 +41,28 @@ async function saveContentImages(): Promise<void> {
       console.log("Loaded existing image data.");
     }
 
-    const contents = await getAllContents();
+    const slugs = getContentSlugs();
 
-    for (const content of contents) {
-      if (content.rawImageUrl) {
-        const imagePath = path.join(imagesDirectory, `${content.slug}.jpg`);
-
-        if (fs.existsSync(imagePath) && imageData[content.slug]) {
-          console.log(`Image for ${content.slug} already exists. Skipping...`);
-          continue;
-        }
-
-        console.log(`Downloading and processing image for ${content.slug}...`);
-        const { width, height } = await downloadAndProcessImage(
-          content.rawImageUrl,
-          imagePath,
-        );
-        console.log(`Image saved: ${imagePath}`);
-
-        imageData[content.slug] = { width, height };
-      } else {
-        console.log(`No image URL found for ${content.slug}`);
+    for (const slug of slugs) {
+      if (imageData[slug]) {
+        console.log(`Image for ${slug} already exists. Skipping...`);
+        continue;
       }
+
+      const content = await getContentBySlug(slug);
+      if (!content) {
+        console.error(`Content not found for slug: ${slug}`);
+        continue;
+      }
+
+      const newImageData = await getImageData(content.imageObjectID);
+      const imagePath = path.join(imagesDirectory, `${content.slug}.jpg`);
+      const { width, height } = await downloadAndProcessImage(
+        newImageData.primaryImage,
+        imagePath,
+      );
+
+      imageData[slug] = { width, height };
     }
 
     // Save updated image data to JSON file

@@ -22,5 +22,37 @@
   "001-helloworld": {
     "width": 2475,
     "height": 3722
+  },
+  "006-rethink-10x-programmer.mdx": {
+    "width": 2108,
+    "height": 3782
+  },
+  "007-shinjuku-meetup-v2.mdx": {
+    "width": 4000,
+    "height": 3266
+  },
+  "005-shinjuku-meetup-v0.mdx": {
+    "width": 3792,
+    "height": 4000
+  },
+  "004-gmail-api-with-service-account-and-nodemailer.mdx": {
+    "width": 3000,
+    "height": 4000
+  },
+  "002-website.mdx": {
+    "width": 4000,
+    "height": 3034
+  },
+  "001-helloworld.mdx": {
+    "width": 2475,
+    "height": 3722
+  },
+  "008-use-mcp.mdx": {
+    "width": 1373,
+    "height": 1561
+  },
+  "003-minimum-prettier.mdx": {
+    "width": 3811,
+    "height": 2818
   }
 }
