@@ -118,7 +118,7 @@ export function ClassicBrowserLayout({
         style={{ marginTop: `${HEADER_HEIGHT}px` }}
       >
         <div className="border-t border-l border-white border-b border-r border-[#808080] p-4 w-full">
-          <div className="border-2 border-[#808080] p-4 sm:p-6 md:p-8 bg-[#d4d0c8] w-full max-w-3xl mx-auto">
+          <div className="p-4 sm:p-6 md:p-8 w-full max-w-3xl mx-auto">
             {children}
           </div>
         </div>
