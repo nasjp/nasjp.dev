@@ -49,7 +49,7 @@ const components = {
   code: (props: JSX.IntrinsicAttributes & { children?: React.ReactNode }) => {
     return (
       <code
-        className="not-prose bg-gray-100 text-red-500 text-sm py-1 px-2 rounded-md mx-2 my-1 break-all inline-block"
+        className="not-prose bg-gray-100 text-red-500 text-xs sm:text-sm py-1 px-2 rounded-md mx-1 sm:mx-2 my-1 break-all inline-block"
         {...props}
       />
     );
@@ -75,9 +75,9 @@ const components = {
     }
 
     return !inline ? (
-      <div className="relative">
+      <div className="relative overflow-x-auto">
         {displayText && (
-          <div className="not-prose absolute top-0 right-0 bg-gray-200 px-2 py-1 text-xs font-mono rounded-bl">
+          <div className="not-prose absolute top-0 right-0 bg-gray-200 px-1 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs font-mono rounded-bl z-10">
             {displayText}
           </div>
         )}
@@ -85,15 +85,23 @@ const components = {
           style={base16AteliersulphurpoolLight}
           language={displayLanguage}
           PreTag="div"
-          customStyle={{ paddingTop: "2rem" }}
-          className="not-prose"
+          customStyle={{ 
+            paddingTop: "2rem", 
+            fontSize: "0.75rem",
+            lineHeight: "1rem",
+            "@media (min-width: 640px)": {
+              fontSize: "0.875rem",
+              lineHeight: "1.25rem"
+            }
+          }}
+          className="not-prose min-w-0"
           {...props}
         >
           {String(children.props.children).replace(/\n$/, "")}
         </SyntaxHighlighter>
       </div>
     ) : (
-      <code className="bg-gray-200 text-red-500" {...props}>
+      <code className="bg-gray-200 text-red-500 text-xs sm:text-sm" {...props}>
         {children}
       </code>
     );

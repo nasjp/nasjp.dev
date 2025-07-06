@@ -10,11 +10,11 @@ export const ContentHeader = async ({ content }: ContentHeaderProps) => {
 
   return (
     <>
-      <h2 className="text-3xl font-bold mb-4 pt-8">{content.title}</h2>
-      <div className="text-sm text-gray-600 mb-4">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-4 pt-4 sm:pt-8">{content.title}</h2>
+      <div className="text-xs sm:text-sm text-gray-600 mb-4">
         {content.datetime.toLocaleDateString("ja-JP")}
       </div>
-      <div className="relative w-full md:w-2/3 lg:w-1/2 mx-auto mb-4">
+      <div className="relative w-full sm:w-4/5 md:w-2/3 lg:w-1/2 mx-auto mb-4">
         <div
           style={{ paddingTop: `calc(${aspectRatio * 100}% + 8px)` }}
           className="relative bg-[#c0c0c0] border-2 border-[#dfdfdf] border-b-[#404040] border-r-[#404040] p-1"
@@ -30,8 +30,8 @@ export const ContentHeader = async ({ content }: ContentHeaderProps) => {
             />
           </div>
         </div>
-        <div className="relative bg-[#c0c0c0] border-2 border-[#dfdfdf] border-b-[#404040] border-r-[#404040] p-1 mb-8 mt-4">
-          <div className="text-sm text-gray-600 break-all">
+        <div className="relative bg-[#c0c0c0] border-2 border-[#dfdfdf] border-b-[#404040] border-r-[#404040] p-1 mb-4 sm:mb-8 mt-2 sm:mt-4">
+          <div className="text-xs sm:text-sm text-gray-600 break-all">
             {content.imageTitle}
             <br />
             {content.imageArtistDisplayName}

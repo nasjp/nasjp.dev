@@ -18,7 +18,8 @@ const titles: Record<string, string> = {
   "/about": "nasjp.dev について",
 };
 
-const HEADER_HEIGHT = 106; // ヘッダーの固定高さ（px）
+const HEADER_HEIGHT_MOBILE = 96; // モバイルでのヘッダー高さ（px）
+const HEADER_HEIGHT_DESKTOP = 106; // デスクトップでのヘッダー高さ（px）
 
 export function ClassicBrowserLayout({
   children,
@@ -43,7 +44,7 @@ export function ClassicBrowserLayout({
             <Button
               variant="secondary"
               size="icon"
-              className="h-6 w-6 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] hover:bg-[#dfdfdf]"
+              className="h-8 w-8 sm:h-6 sm:w-6 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] hover:bg-[#dfdfdf]"
             >
               <Home className="h-4 w-4" />
               <span className="sr-only">ホーム</span>
@@ -52,7 +53,7 @@ export function ClassicBrowserLayout({
           <Button
             variant="secondary"
             size="icon"
-            className="h-6 w-6 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] hover:bg-[#dfdfdf]"
+            className="h-8 w-8 sm:h-6 sm:w-6 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] hover:bg-[#dfdfdf]"
             disabled
           >
             <Search className="h-4 w-4" />
@@ -62,7 +63,7 @@ export function ClassicBrowserLayout({
             <Button
               variant="secondary"
               size="icon"
-              className="h-6 w-6 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] hover:bg-[#dfdfdf]"
+              className="h-8 w-8 sm:h-6 sm:w-6 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] hover:bg-[#dfdfdf]"
             >
               <svg
                 viewBox="0 0 1200 1227"
@@ -81,7 +82,7 @@ export function ClassicBrowserLayout({
             <Button
               variant="secondary"
               size="icon"
-              className="h-6 w-6 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] hover:bg-[#dfdfdf]"
+              className="h-8 w-8 sm:h-6 sm:w-6 bg-[#c0c0c0] border-t border-l border-[#dfdfdf] border-b border-r border-[#808080] hover:bg-[#dfdfdf]"
             >
               <Github />
             </Button>
@@ -90,35 +91,49 @@ export function ClassicBrowserLayout({
 
         <div className="grid gap-0 bg-[#c0c0c0]">
           <div className="flex items-center px-1 py-px border-t border-l border-[#dfdfdf] border-b border-r border-[#808080]">
-            <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1">
+            <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1 hidden sm:block">
               Document Title:
             </div>
+            <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1 sm:hidden">
+              Title:
+            </div>
             <div className="text-xs px-1 flex-1 bg-white border border-[#808080] overflow-x-auto">
-              {(pathTitleMap[pathname] ?? titles[pathname] ?? pathname).length >
-              30
-                ? `${(
-                    pathTitleMap[pathname] ?? titles[pathname] ?? pathname
-                  ).slice(0, 35)}...`
-                : (pathTitleMap[pathname] ?? titles[pathname] ?? pathname)}
+              <span className="sm:hidden">
+                {(pathTitleMap[pathname] ?? titles[pathname] ?? pathname).length > 20
+                  ? `${(pathTitleMap[pathname] ?? titles[pathname] ?? pathname).slice(0, 20)}...`
+                  : (pathTitleMap[pathname] ?? titles[pathname] ?? pathname)}
+              </span>
+              <span className="hidden sm:block">
+                {(pathTitleMap[pathname] ?? titles[pathname] ?? pathname).length > 30
+                  ? `${(pathTitleMap[pathname] ?? titles[pathname] ?? pathname).slice(0, 35)}...`
+                  : (pathTitleMap[pathname] ?? titles[pathname] ?? pathname)}
+              </span>
             </div>
           </div>
           <div className="flex items-center px-1 py-px border-t border-l border-[#dfdfdf] border-b border-r border-[#808080]">
-            <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1">
+            <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1 hidden sm:block">
               Document Path:
             </div>
+            <div className="text-xs whitespace-nowrap flex-shrink-0 mr-1 sm:hidden">
+              Path:
+            </div>
             <div className="text-xs px-1 flex-1 bg-white border border-[#808080] overflow-x-auto">
-              {pathname.length > 20 ? `${pathname.slice(0, 35)}...` : pathname}
+              <span className="sm:hidden">
+                {pathname.length > 15 ? `${pathname.slice(0, 15)}...` : pathname}
+              </span>
+              <span className="hidden sm:block">
+                {pathname.length > 20 ? `${pathname.slice(0, 35)}...` : pathname}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       <div
-        className="flex-1 w-full bg-[#c0c0c0] p-1"
-        style={{ marginTop: `${HEADER_HEIGHT}px` }}
+        className="flex-1 w-full bg-[#c0c0c0] p-1 mt-24 md:mt-[106px]"
       >
-        <div className="border-t border-l border-white border-b border-r border-[#808080] p-4 w-full">
-          <div className="p-4 sm:p-6 md:p-8 w-full max-w-3xl mx-auto">
+        <div className="border-t border-l border-white border-b border-r border-[#808080] p-2 sm:p-4 w-full">
+          <div className="p-2 sm:p-4 md:p-6 lg:p-8 w-full max-w-3xl mx-auto">
             {children}
           </div>
         </div>
