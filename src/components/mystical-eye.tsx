@@ -101,6 +101,19 @@ export default function MysticalEye() {
         line.setAttribute("y2", "300"); // Close to center
       }
 
+      // Hide iris and pupil
+      const pupil = svg.querySelector("#pupil");
+      const irisTexture = svg.querySelector("#iris-texture");
+      if (iris) {
+        iris.style.transform = "scaleY(0)";
+      }
+      if (pupil) {
+        pupil.style.transform = "scaleY(0)";
+      }
+      if (irisTexture) {
+        irisTexture.style.transform = "scaleY(0)";
+      }
+
       // Open eye after 150ms
       setTimeout(() => {
         // Restore original positions
@@ -108,6 +121,17 @@ export default function MysticalEye() {
         for (const line of eyelids) {
           line.setAttribute("y2", originalPositions[index].y2);
           index++;
+        }
+
+        // Show iris and pupil
+        if (iris) {
+          iris.style.transform = "";
+        }
+        if (pupil) {
+          pupil.style.transform = "";
+        }
+        if (irisTexture) {
+          irisTexture.style.transform = "";
         }
 
         // If double blink, do second blink
@@ -118,6 +142,20 @@ export default function MysticalEye() {
               line.setAttribute("y2", "300");
             }
 
+            // Hide iris and pupil again
+            const iris2 = svg.querySelector("#iris");
+            const pupil2 = svg.querySelector("#pupil");
+            const irisTexture2 = svg.querySelector("#iris-texture");
+            if (iris2) {
+              iris2.style.transform = "scaleY(0)";
+            }
+            if (pupil2) {
+              pupil2.style.transform = "scaleY(0)";
+            }
+            if (irisTexture2) {
+              irisTexture2.style.transform = "scaleY(0)";
+            }
+
             // Open again
             setTimeout(() => {
               // Restore original positions
@@ -126,6 +164,18 @@ export default function MysticalEye() {
                 line.setAttribute("y2", originalPositions[idx].y2);
                 idx++;
               }
+
+              // Show iris and pupil again
+              if (iris2) {
+                iris2.style.transform = "";
+              }
+              if (pupil2) {
+                pupil2.style.transform = "";
+              }
+              if (irisTexture2) {
+                irisTexture2.style.transform = "";
+              }
+
               isBlinkingRef.current = false;
 
               // Move eyelashes back behind iris after double blink
@@ -345,7 +395,7 @@ export default function MysticalEye() {
             id="iris"
             style={{
               transformOrigin: "300px 300px",
-              transition: "transform 0.05s ease-out",
+              transition: "transform 0.15s ease-out",
             }}
           >
             <circle
@@ -418,7 +468,7 @@ export default function MysticalEye() {
             id="iris-texture"
             style={{
               transformOrigin: "300px 300px",
-              transition: "transform 0.1s ease-out",
+              transition: "transform 0.15s ease-out",
             }}
           >
             {isClient &&
@@ -450,7 +500,7 @@ export default function MysticalEye() {
             id="pupil"
             style={{
               transformOrigin: "300px 300px",
-              transition: "transform 0.1s ease-out",
+              transition: "transform 0.15s ease-out",
             }}
           >
             <circle cx="290" cy="290" r="8" fill="#60a5fa" opacity="0.8" />
