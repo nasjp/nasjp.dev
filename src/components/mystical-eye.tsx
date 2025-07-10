@@ -182,53 +182,55 @@ export default function MysticalEye() {
           }}
         >
           {/* Outer eyelash-like radiating lines */}
-          {isClient && Array.from({ length: 60 }, (_, i) => {
-            const angle = (i * 6 * Math.PI) / 180;
-            const innerRadius = 120;
-            const outerRadius = 160 + Math.sin(i * 0.5) * 20;
-            const x1 = 300 + Math.cos(angle) * innerRadius;
-            const y1 = 300 + Math.sin(angle) * innerRadius;
-            const x2 = 300 + Math.cos(angle) * outerRadius;
-            const y2 = 300 + Math.sin(angle) * outerRadius;
+          {isClient &&
+            Array.from({ length: 60 }, (_, i) => {
+              const angle = (i * 6 * Math.PI) / 180;
+              const innerRadius = 120;
+              const outerRadius = 160 + Math.sin(i * 0.5) * 20;
+              const x1 = 300 + Math.cos(angle) * innerRadius;
+              const y1 = 300 + Math.sin(angle) * innerRadius;
+              const x2 = 300 + Math.cos(angle) * outerRadius;
+              const y2 = 300 + Math.sin(angle) * outerRadius;
 
-            return (
-              <line
-                key={i}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke="#2c3e50"
-                strokeWidth="1.5"
-                opacity={0.8}
-                className="eyelash-line"
-              />
-            );
-          })}
+              return (
+                <line
+                  key={i}
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke="#2c3e50"
+                  strokeWidth="1.5"
+                  opacity={0.8}
+                  className="eyelash-line"
+                />
+              );
+            })}
 
           {/* Inner detailed radiating pattern */}
-          {isClient && Array.from({ length: 40 }, (_, i) => {
-            const angle = (i * 9 * Math.PI) / 180;
-            const innerRadius = 80;
-            const outerRadius = 115;
-            const x1 = 300 + Math.cos(angle) * innerRadius;
-            const y1 = 300 + Math.sin(angle) * innerRadius;
-            const x2 = 300 + Math.cos(angle) * outerRadius;
-            const y2 = 300 + Math.sin(angle) * outerRadius;
+          {isClient &&
+            Array.from({ length: 40 }, (_, i) => {
+              const angle = (i * 9 * Math.PI) / 180;
+              const innerRadius = 80;
+              const outerRadius = 115;
+              const x1 = 300 + Math.cos(angle) * innerRadius;
+              const y1 = 300 + Math.sin(angle) * innerRadius;
+              const x2 = 300 + Math.cos(angle) * outerRadius;
+              const y2 = 300 + Math.sin(angle) * outerRadius;
 
-            return (
-              <line
-                key={i}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke="#2c3e50"
-                strokeWidth="1"
-                opacity={0.9}
-              />
-            );
-          })}
+              return (
+                <line
+                  key={i}
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke="#2c3e50"
+                  strokeWidth="1"
+                  opacity={0.9}
+                />
+              );
+            })}
 
           {/* Central iris - dark blue circle */}
           <g
@@ -311,26 +313,27 @@ export default function MysticalEye() {
               transition: "transform 0.1s ease-out",
             }}
           >
-            {isClient && Array.from({ length: 16 }, (_, i) => {
-              const angle = (i * 22.5 * Math.PI) / 180;
-              const x1 = 300 + Math.cos(angle) * 45;
-              const y1 = 300 + Math.sin(angle) * 45;
-              const x2 = 300 + Math.cos(angle) * 70;
-              const y2 = 300 + Math.sin(angle) * 70;
+            {isClient &&
+              Array.from({ length: 16 }, (_, i) => {
+                const angle = (i * 22.5 * Math.PI) / 180;
+                const x1 = 300 + Math.cos(angle) * 45;
+                const y1 = 300 + Math.sin(angle) * 45;
+                const x2 = 300 + Math.cos(angle) * 70;
+                const y2 = 300 + Math.sin(angle) * 70;
 
-              return (
-                <line
-                  key={i}
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
-                  stroke="#3b82f6"
-                  strokeWidth="0.8"
-                  opacity="0.7"
-                />
-              );
-            })}
+                return (
+                  <line
+                    key={i}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke="#3b82f6"
+                    strokeWidth="0.8"
+                    opacity="0.7"
+                  />
+                );
+              })}
           </g>
 
           {/* Pupil highlight */}

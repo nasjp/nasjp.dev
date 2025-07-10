@@ -1,15 +1,15 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname
-  
+  const pathname = request.nextUrl.pathname;
+
   // ルートページ以外へのアクセスをすべてルートページにリダイレクト
-  if (pathname !== '/') {
-    return NextResponse.redirect(new URL('/', request.url))
+  if (pathname !== "/") {
+    return NextResponse.redirect(new URL("/", request.url));
   }
-  
-  return NextResponse.next()
+
+  return NextResponse.next();
 }
 
 export const config = {
@@ -21,6 +21,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
-}
+};

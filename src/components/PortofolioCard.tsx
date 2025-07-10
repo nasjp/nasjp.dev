@@ -23,7 +23,9 @@ export function PortfolioCard({
   return (
     <div className="flex flex-col h-full bg-[#c0c0c0] border-2 border-[#dfdfdf] border-b-[#404040] border-r-[#404040]">
       <div className="mb-2 bg-[#000080] text-white border-2 border-[#dfdfdf] border-b-[#404040] border-r-[#404040] p-1 text-xs px-2 py-1 m-1">
-        <h3 className="text-sm md:text-base font-bold mb-1 md:mb-2">{service}</h3>
+        <h3 className="text-sm md:text-base font-bold mb-1 md:mb-2">
+          {service}
+        </h3>
         <span className="text-xs">{client}</span>
       </div>
       <div className="flex-grow p-1">
