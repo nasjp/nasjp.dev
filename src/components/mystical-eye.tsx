@@ -85,12 +85,12 @@ export default function MysticalEye() {
 
       // Open eye after 150ms
       setTimeout(() => {
-        eyelids.forEach((line) => {
+        for (const line of eyelids) {
           const originalY2 = line.getAttribute("data-original-y2");
           if (originalY2) {
             line.setAttribute("y2", originalY2);
           }
-        });
+        }
         isBlinking = false;
       }, 150);
     };
@@ -170,6 +170,7 @@ export default function MysticalEye() {
         viewBox="0 0 600 600"
         className="w-full h-auto max-w-2xl"
       >
+        <title>Mystical Eye Animation</title>
         {/* Background */}
         <rect width="600" height="600" fill="#ffffff" />
 
@@ -194,7 +195,8 @@ export default function MysticalEye() {
 
               return (
                 <line
-                  key={i}
+                  // biome-ignore lint/suspicious/noArrayIndexKey: Static array with fixed positions
+                  key={`eyelash-outer-${i}`}
                   x1={x1}
                   y1={y1}
                   x2={x2}
@@ -220,7 +222,8 @@ export default function MysticalEye() {
 
               return (
                 <line
-                  key={i}
+                  // biome-ignore lint/suspicious/noArrayIndexKey: Static array with fixed positions
+                  key={`eyelash-inner-${i}`}
                   x1={x1}
                   y1={y1}
                   x2={x2}
@@ -323,7 +326,8 @@ export default function MysticalEye() {
 
                 return (
                   <line
-                    key={i}
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Static array with fixed positions
+                    key={`iris-texture-${i}`}
                     x1={x1}
                     y1={y1}
                     x2={x2}
