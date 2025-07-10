@@ -15,6 +15,7 @@ export default function MysticalEye() {
     let mouseY = 300;
     let isBlinking = false;
     let pupilSize = 8;
+    let blinkCount = 0;
 
     // Much more dramatic mouse tracking for eye movement
     const handleMouseMove = (e: MouseEvent) => {
@@ -70,18 +71,18 @@ export default function MysticalEye() {
     };
 
     // Blinking animation
-    const blink = () => {
+    const blink = (isDouble = false) => {
       if (isBlinking) return;
 
       isBlinking = true;
       const eyelids = svg.querySelectorAll(".eyelash-line");
 
       // Close eye
-      eyelids.forEach((line, i) => {
+      for (const line of eyelids) {
         const currentY2 = line.getAttribute("y2");
         line.setAttribute("data-original-y2", currentY2 || "");
         line.setAttribute("y2", "300"); // Close to center
-      });
+      }
 
       // Open eye after 150ms
       setTimeout(() => {
@@ -91,18 +92,45 @@ export default function MysticalEye() {
             line.setAttribute("y2", originalY2);
           }
         }
-        isBlinking = false;
+
+        // If double blink, do second blink
+        if (isDouble) {
+          setTimeout(() => {
+            // Close again
+            for (const line of eyelids) {
+              const currentY2 = line.getAttribute("y2");
+              line.setAttribute("data-original-y2", currentY2 || "");
+              line.setAttribute("y2", "300");
+            }
+
+            // Open again
+            setTimeout(() => {
+              for (const line of eyelids) {
+                const originalY2 = line.getAttribute("data-original-y2");
+                if (originalY2) {
+                  line.setAttribute("y2", originalY2);
+                }
+              }
+              isBlinking = false;
+            }, 150);
+          }, 150);
+        } else {
+          isBlinking = false;
+        }
       }, 150);
     };
 
-    // Random blinking every 2-4 seconds
+    // Random blinking every 1.5-3 seconds
     const blinkInterval = setInterval(
       () => {
         if (Math.random() > 0.3) {
-          blink();
+          blinkCount++;
+          // Every 3rd blink is a double blink
+          const isDoubleBlink = blinkCount % 3 === 0;
+          blink(isDoubleBlink);
         }
       },
-      2000 + Math.random() * 2000,
+      1500 + Math.random() * 1500,
     );
 
     // Add mouse move listener
@@ -170,7 +198,7 @@ export default function MysticalEye() {
         viewBox="0 0 600 600"
         className="w-full h-auto max-w-2xl"
       >
-        <title>Mystical Eye Animation</title>
+        <title>nasjp.dev's watching you</title>
         {/* Background */}
         <rect width="600" height="600" fill="#ffffff" />
 
