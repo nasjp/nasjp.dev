@@ -6,30 +6,31 @@ export default function MysticalEye() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [isClient, setIsClient] = useState(false);
   const [showScrollText, setShowScrollText] = useState(false);
-  const [textPosition, setTextPosition] = useState({ x: 120, y: 500 });
+  const [textPosition, setTextPosition] = useState({ x: 200, y: 600 });
   const isBlinkingRef = useRef(false);
+  const showScrollTextRef = useRef(false);
 
   useEffect(() => {
     setIsClient(true);
     const svg = svgRef.current;
     if (!svg) return;
 
-    let mouseX = 300;
-    let mouseY = 300;
+    const centerX = 400;
+    const centerY = 400;
+    let mouseX = centerX;
+    let mouseY = centerY;
     let pupilSize = 8;
     let blinkCount = 0;
-    let targetTextX = 120;
-    let targetTextY = 500;
+    let targetTextX = 200;
+    let targetTextY = 600;
 
     // Much more dramatic mouse tracking for eye movement
     const handleMouseMove = (e: MouseEvent) => {
       const rect = svg.getBoundingClientRect();
-      mouseX = ((e.clientX - rect.left) / rect.width) * 600;
-      mouseY = ((e.clientY - rect.top) / rect.height) * 600;
+      mouseX = ((e.clientX - rect.left) / rect.width) * 800;
+      mouseY = ((e.clientY - rect.top) / rect.height) * 800;
 
       // Calculate eye movement with MUCH larger range
-      const centerX = 300;
-      const centerY = 300;
       const maxOffset = 35;
 
       const deltaX = mouseX - centerX;
@@ -73,9 +74,22 @@ export default function MysticalEye() {
         );
       }
 
-      // Update target text position
-      targetTextX = 120 + offsetX * 0.4; // 40% of eye movement
-      targetTextY = 500 + offsetY * 0.4;
+      // Update target text position (only when text is visible)
+      if (showScrollTextRef.current) {
+        const currentAngle = Math.atan2(
+          targetTextY - centerY,
+          targetTextX - centerX,
+        );
+        const currentDistance = Math.sqrt(
+          (targetTextX - centerX) ** 2 + (targetTextY - centerY) ** 2,
+        );
+
+        // Move text slightly with eye movement
+        targetTextX =
+          centerX + Math.cos(currentAngle) * currentDistance + offsetX * 0.3;
+        targetTextY =
+          centerY + Math.sin(currentAngle) * currentDistance + offsetY * 0.3;
+      }
     };
 
     // Blinking animation
@@ -89,8 +103,8 @@ export default function MysticalEye() {
       const originalPositions: { x2: string; y2: string }[] = [];
       for (const line of eyelids) {
         originalPositions.push({
-          x2: line.getAttribute("x2") || "300",
-          y2: line.getAttribute("y2") || "300",
+          x2: line.getAttribute("x2") || centerX.toString(),
+          y2: line.getAttribute("y2") || centerY.toString(),
         });
       }
 
@@ -106,7 +120,7 @@ export default function MysticalEye() {
 
       // Close eye
       for (const line of eyelids) {
-        line.setAttribute("y2", "300"); // Close to center
+        line.setAttribute("y2", centerY.toString()); // Close to center
       }
 
       // Hide iris and pupil
@@ -147,7 +161,7 @@ export default function MysticalEye() {
           setTimeout(() => {
             // Close again
             for (const line of eyelids) {
-              line.setAttribute("y2", "300");
+              line.setAttribute("y2", centerY.toString());
             }
 
             // Hide iris and pupil again
@@ -285,9 +299,13 @@ export default function MysticalEye() {
             continue;
           }
 
-          const x1 = Number.parseFloat(line.getAttribute("x1") || "300");
-          const y1 = Number.parseFloat(line.getAttribute("y1") || "300");
-          const angle = Math.atan2(y1 - 300, x1 - 300);
+          const x1 = Number.parseFloat(
+            line.getAttribute("x1") || centerX.toString(),
+          );
+          const y1 = Number.parseFloat(
+            line.getAttribute("y1") || centerY.toString(),
+          );
+          const angle = Math.atan2(y1 - centerY, x1 - centerX);
 
           // Create wave effect with phase shift based on index
           const wavePhase = elapsed * 2 + index * 0.2;
@@ -327,21 +345,35 @@ export default function MysticalEye() {
 
     animateTextPosition();
 
-    // Show scroll text periodically
-    const scrollTextInterval = setInterval(() => {
+    // Function to show text at random position around eye
+    const showTextAtRandomPosition = () => {
+      // Random angle around the eye
+      const angle = Math.random() * Math.PI * 2;
+      // Distance from center (outside eyelashes)
+      const distance = 180 + Math.random() * 40; // 180-220 pixels from center
+
+      // Calculate position
+      const x = centerX + Math.cos(angle) * distance - 50; // Offset for text width
+      const y = centerY + Math.sin(angle) * distance;
+
+      // Set initial position and target
+      setTextPosition({ x, y });
+      targetTextX = x;
+      targetTextY = y;
+
       setShowScrollText(true);
+      showScrollTextRef.current = true;
       setTimeout(() => {
         setShowScrollText(false);
+        showScrollTextRef.current = false;
       }, 1000);
-    }, 5000);
+    };
+
+    // Show scroll text periodically
+    const scrollTextInterval = setInterval(showTextAtRandomPosition, 5000);
 
     // Show scroll text initially after 2 seconds
-    setTimeout(() => {
-      setShowScrollText(true);
-      setTimeout(() => {
-        setShowScrollText(false);
-      }, 1000);
-    }, 2000);
+    setTimeout(showTextAtRandomPosition, 2000);
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
@@ -354,20 +386,20 @@ export default function MysticalEye() {
     <div className="flex items-center justify-center min-h-screen bg-white p-4">
       <svg
         ref={svgRef}
-        width="600"
-        height="600"
-        viewBox="0 0 600 600"
-        className="w-full h-auto max-w-2xl"
+        width="800"
+        height="800"
+        viewBox="0 0 800 800"
+        className="w-full h-auto max-w-3xl"
       >
         <title>nasjp.dev's watching you</title>
         {/* Background */}
-        <rect width="600" height="600" fill="#ffffff" />
+        <rect width="800" height="800" fill="#ffffff" />
 
         {/* Central eye structure - ONLY eye and eyelashes */}
         <g
           id="central-eye"
           style={{
-            transformOrigin: "300px 300px",
+            transformOrigin: "400px 400px",
             transition: "transform 0.3s ease",
           }}
         >
@@ -379,10 +411,10 @@ export default function MysticalEye() {
                 const angle = (i * 6 * Math.PI) / 180;
                 const innerRadius = 120;
                 const outerRadius = 160 + Math.sin(i * 0.5) * 20;
-                const x1 = 300 + Math.cos(angle) * innerRadius;
-                const y1 = 300 + Math.sin(angle) * innerRadius;
-                const x2 = 300 + Math.cos(angle) * outerRadius;
-                const y2 = 300 + Math.sin(angle) * outerRadius;
+                const x1 = 400 + Math.cos(angle) * innerRadius;
+                const y1 = 400 + Math.sin(angle) * innerRadius;
+                const x2 = 400 + Math.cos(angle) * outerRadius;
+                const y2 = 400 + Math.sin(angle) * outerRadius;
 
                 return (
                   <line
@@ -406,10 +438,10 @@ export default function MysticalEye() {
                 const angle = (i * 9 * Math.PI) / 180;
                 const innerRadius = 80;
                 const outerRadius = 115;
-                const x1 = 300 + Math.cos(angle) * innerRadius;
-                const y1 = 300 + Math.sin(angle) * innerRadius;
-                const x2 = 300 + Math.cos(angle) * outerRadius;
-                const y2 = 300 + Math.sin(angle) * outerRadius;
+                const x1 = 400 + Math.cos(angle) * innerRadius;
+                const y1 = 400 + Math.sin(angle) * innerRadius;
+                const x2 = 400 + Math.cos(angle) * outerRadius;
+                const y2 = 400 + Math.sin(angle) * outerRadius;
 
                 return (
                   <line
@@ -431,21 +463,21 @@ export default function MysticalEye() {
           <g
             id="iris"
             style={{
-              transformOrigin: "300px 300px",
+              transformOrigin: "400px 400px",
               transition: "transform 0.15s ease-out",
             }}
           >
             <circle
-              cx="300"
-              cy="300"
+              cx="400"
+              cy="400"
               r="75"
               fill="#1e3a8a"
               stroke="#2c3e50"
               strokeWidth="2"
             />
             <circle
-              cx="300"
-              cy="300"
+              cx="400"
+              cy="400"
               r="65"
               fill="none"
               stroke="#3b82f6"
@@ -455,8 +487,8 @@ export default function MysticalEye() {
 
             {/* Add pulsing inner rings */}
             <circle
-              cx="300"
-              cy="300"
+              cx="400"
+              cy="400"
               r="55"
               fill="none"
               stroke="#60a5fa"
@@ -477,8 +509,8 @@ export default function MysticalEye() {
               />
             </circle>
             <circle
-              cx="300"
-              cy="300"
+              cx="400"
+              cy="400"
               r="35"
               fill="none"
               stroke="#93c5fd"
@@ -504,17 +536,17 @@ export default function MysticalEye() {
           <g
             id="iris-texture"
             style={{
-              transformOrigin: "300px 300px",
+              transformOrigin: "400px 400px",
               transition: "transform 0.15s ease-out",
             }}
           >
             {isClient &&
               Array.from({ length: 16 }, (_, i) => {
                 const angle = (i * 22.5 * Math.PI) / 180;
-                const x1 = 300 + Math.cos(angle) * 45;
-                const y1 = 300 + Math.sin(angle) * 45;
-                const x2 = 300 + Math.cos(angle) * 70;
-                const y2 = 300 + Math.sin(angle) * 70;
+                const x1 = 400 + Math.cos(angle) * 45;
+                const y1 = 400 + Math.sin(angle) * 45;
+                const x2 = 400 + Math.cos(angle) * 70;
+                const y2 = 400 + Math.sin(angle) * 70;
 
                 return (
                   <line
@@ -536,11 +568,11 @@ export default function MysticalEye() {
           <g
             id="pupil"
             style={{
-              transformOrigin: "300px 300px",
+              transformOrigin: "400px 400px",
               transition: "transform 0.15s ease-out",
             }}
           >
-            <circle cx="290" cy="290" r="8" fill="#60a5fa" opacity="0.8" />
+            <circle cx="390" cy="390" r="8" fill="#60a5fa" opacity="0.8" />
           </g>
 
           {/* Scroll down text */}
@@ -550,7 +582,7 @@ export default function MysticalEye() {
             fontSize="28"
             fontFamily="'Noto Serif JP', serif"
             fontWeight="700"
-            fill="#1e3a8a"
+            fill="#000000"
             opacity={showScrollText ? 0.9 : 0}
             style={{
               transition: "opacity 0.3s ease-in-out",
