@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 export default function MysticalEye() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [isClient, setIsClient] = useState(false);
+  const [showScrollText, setShowScrollText] = useState(false);
+  const [textPosition, setTextPosition] = useState({ x: 120, y: 500 });
   const isBlinkingRef = useRef(false);
 
   useEffect(() => {
@@ -16,6 +18,8 @@ export default function MysticalEye() {
     let mouseY = 300;
     let pupilSize = 8;
     let blinkCount = 0;
+    let targetTextX = 120;
+    let targetTextY = 500;
 
     // Much more dramatic mouse tracking for eye movement
     const handleMouseMove = (e: MouseEvent) => {
@@ -68,6 +72,10 @@ export default function MysticalEye() {
           `translate(${offsetX}, ${offsetY})`,
         );
       }
+
+      // Update target text position
+      targetTextX = 120 + offsetX * 0.4; // 40% of eye movement
+      targetTextY = 500 + offsetY * 0.4;
     };
 
     // Blinking animation
@@ -307,9 +315,38 @@ export default function MysticalEye() {
       animateEyelashes();
     }, 100);
 
+    // Smooth text position animation
+    const animateTextPosition = () => {
+      setTextPosition((prev) => {
+        const newX = prev.x + (targetTextX - prev.x) * 0.05;
+        const newY = prev.y + (targetTextY - prev.y) * 0.05;
+        return { x: newX, y: newY };
+      });
+      requestAnimationFrame(animateTextPosition);
+    };
+
+    animateTextPosition();
+
+    // Show scroll text periodically
+    const scrollTextInterval = setInterval(() => {
+      setShowScrollText(true);
+      setTimeout(() => {
+        setShowScrollText(false);
+      }, 1000);
+    }, 5000);
+
+    // Show scroll text initially after 2 seconds
+    setTimeout(() => {
+      setShowScrollText(true);
+      setTimeout(() => {
+        setShowScrollText(false);
+      }, 1000);
+    }, 2000);
+
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       clearInterval(blinkInterval);
+      clearInterval(scrollTextInterval);
     };
   }, []);
 
@@ -505,6 +542,22 @@ export default function MysticalEye() {
           >
             <circle cx="290" cy="290" r="8" fill="#60a5fa" opacity="0.8" />
           </g>
+
+          {/* Scroll down text */}
+          <text
+            x={textPosition.x}
+            y={textPosition.y}
+            fontSize="28"
+            fontFamily="'Noto Serif JP', serif"
+            fontWeight="700"
+            fill="#1e3a8a"
+            opacity={showScrollText ? 0.9 : 0}
+            style={{
+              transition: "opacity 0.3s ease-in-out",
+            }}
+          >
+            scroll down
+          </text>
         </g>
       </svg>
     </div>
