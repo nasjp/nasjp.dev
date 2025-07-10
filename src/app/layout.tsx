@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
-import { ClassicBrowserLayout } from "@/components/ClassicBrowserLayout";
-import { getPathTitleMap } from "@/lib/content";
 
 const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
@@ -19,14 +17,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathTitleMap = await getPathTitleMap();
   return (
     <html lang="ja">
-      <body className={notoSerifJP.className}>
-        <ClassicBrowserLayout pathTitleMap={pathTitleMap}>
-          {children}
-        </ClassicBrowserLayout>
-      </body>
+      <body className={notoSerifJP.className}>{children}</body>
     </html>
   );
 }

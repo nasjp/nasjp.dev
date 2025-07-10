@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "bun src/scripts/saveContentImages.ts",
     "build": "next build",
     "start": "next start",
     "lint": "biome check --write src",
