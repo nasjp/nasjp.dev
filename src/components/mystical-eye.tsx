@@ -17,80 +17,8 @@ export default function MysticalEye() {
 
     const centerX = 400;
     const centerY = 400;
-    let mouseX = centerX;
-    let mouseY = centerY;
-    let pupilSize = 8;
     let blinkCount = 0;
-    let targetTextX = 200;
-    let targetTextY = 600;
-
-    // Much more dramatic mouse tracking for eye movement
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = svg.getBoundingClientRect();
-      mouseX = ((e.clientX - rect.left) / rect.width) * 800;
-      mouseY = ((e.clientY - rect.top) / rect.height) * 800;
-
-      // Calculate eye movement with MUCH larger range
-      const maxOffset = 35;
-
-      const deltaX = mouseX - centerX;
-      const deltaY = mouseY - centerY;
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (distance > 0) {
-        offsetX = (deltaX / distance) * Math.min(distance / 5, maxOffset);
-        offsetY = (deltaY / distance) * Math.min(distance / 5, maxOffset);
-      }
-
-      // Pupil dilation based on distance from center
-      const distanceFromCenter = Math.min(distance / 10, 20);
-      pupilSize = 8 + distanceFromCenter * 0.3;
-
-      // Move the iris and pupil with dramatic effect
-      const iris = svg.querySelector("#iris");
-      const pupil = svg.querySelector("#pupil");
-      const irisTexture = svg.querySelector("#iris-texture");
-
-      if (iris) {
-        iris.setAttribute(
-          "transform",
-          `translate(${offsetX}, ${offsetY}) scale(${1 + distanceFromCenter * 0.01})`,
-        );
-      }
-      if (pupil) {
-        pupil.setAttribute("transform", `translate(${offsetX}, ${offsetY})`);
-        const pupilCircle = pupil.querySelector("circle");
-        if (pupilCircle) {
-          pupilCircle.setAttribute("r", pupilSize.toString());
-        }
-      }
-      if (irisTexture) {
-        irisTexture.setAttribute(
-          "transform",
-          `translate(${offsetX}, ${offsetY})`,
-        );
-      }
-
-      // Update target text position (only when text is visible)
-      if (showScrollTextRef.current) {
-        const currentAngle = Math.atan2(
-          targetTextY - centerY,
-          targetTextX - centerX,
-        );
-        const currentDistance = Math.sqrt(
-          (targetTextX - centerX) ** 2 + (targetTextY - centerY) ** 2,
-        );
-
-        // Move text slightly with eye movement
-        targetTextX =
-          centerX + Math.cos(currentAngle) * currentDistance + offsetX * 0.3;
-        targetTextY =
-          centerY + Math.sin(currentAngle) * currentDistance + offsetY * 0.3;
-      }
-    };
+    let eyeScaleY = 1; // Track eye scale for blinking
 
     // Blinking animation
     const blink = (isDouble = false) => {
@@ -126,14 +54,17 @@ export default function MysticalEye() {
       // Hide iris and pupil
       const pupil = svg.querySelector("#pupil");
       const irisTexture = svg.querySelector("#iris-texture");
+      eyeScaleY = 0;
+
+      // Apply scale transform
       if (iris) {
-        iris.style.transform = "scaleY(0)";
+        iris.setAttribute("transform", `scale(1, ${eyeScaleY})`);
       }
       if (pupil) {
-        pupil.style.transform = "scaleY(0)";
+        pupil.setAttribute("transform", `scale(1, ${eyeScaleY})`);
       }
       if (irisTexture) {
-        irisTexture.style.transform = "scaleY(0)";
+        irisTexture.setAttribute("transform", `scale(1, ${eyeScaleY})`);
       }
 
       // Open eye after 150ms
@@ -146,14 +77,17 @@ export default function MysticalEye() {
         }
 
         // Show iris and pupil
+        eyeScaleY = 1;
+
+        // Apply scale transform
         if (iris) {
-          iris.style.transform = "";
+          iris.setAttribute("transform", `scale(1, ${eyeScaleY})`);
         }
         if (pupil) {
-          pupil.style.transform = "";
+          pupil.setAttribute("transform", `scale(1, ${eyeScaleY})`);
         }
         if (irisTexture) {
-          irisTexture.style.transform = "";
+          irisTexture.setAttribute("transform", `scale(1, ${eyeScaleY})`);
         }
 
         // If double blink, do second blink
@@ -165,17 +99,20 @@ export default function MysticalEye() {
             }
 
             // Hide iris and pupil again
+            eyeScaleY = 0;
+
+            // Apply scale transform
             const iris2 = svg.querySelector("#iris");
             const pupil2 = svg.querySelector("#pupil");
             const irisTexture2 = svg.querySelector("#iris-texture");
             if (iris2) {
-              iris2.style.transform = "scaleY(0)";
+              iris2.setAttribute("transform", `scale(1, ${eyeScaleY})`);
             }
             if (pupil2) {
-              pupil2.style.transform = "scaleY(0)";
+              pupil2.setAttribute("transform", `scale(1, ${eyeScaleY})`);
             }
             if (irisTexture2) {
-              irisTexture2.style.transform = "scaleY(0)";
+              irisTexture2.setAttribute("transform", `scale(1, ${eyeScaleY})`);
             }
 
             // Open again
@@ -188,14 +125,20 @@ export default function MysticalEye() {
               }
 
               // Show iris and pupil again
+              eyeScaleY = 1;
+
+              // Apply scale transform
               if (iris2) {
-                iris2.style.transform = "";
+                iris2.setAttribute("transform", `scale(1, ${eyeScaleY})`);
               }
               if (pupil2) {
-                pupil2.style.transform = "";
+                pupil2.setAttribute("transform", `scale(1, ${eyeScaleY})`);
               }
               if (irisTexture2) {
-                irisTexture2.style.transform = "";
+                irisTexture2.setAttribute(
+                  "transform",
+                  `scale(1, ${eyeScaleY})`,
+                );
               }
 
               isBlinkingRef.current = false;
@@ -232,9 +175,6 @@ export default function MysticalEye() {
       },
       1500 + Math.random() * 1500,
     );
-
-    // Add mouse move listener
-    document.addEventListener("mousemove", handleMouseMove);
 
     // SUPER dynamic floating animation for the entire eye
     const eye = svg.querySelector("#central-eye");
@@ -333,18 +273,6 @@ export default function MysticalEye() {
       animateEyelashes();
     }, 100);
 
-    // Smooth text position animation
-    const animateTextPosition = () => {
-      setTextPosition((prev) => {
-        const newX = prev.x + (targetTextX - prev.x) * 0.05;
-        const newY = prev.y + (targetTextY - prev.y) * 0.05;
-        return { x: newX, y: newY };
-      });
-      requestAnimationFrame(animateTextPosition);
-    };
-
-    animateTextPosition();
-
     // Function to show text at random position around eye
     const showTextAtRandomPosition = () => {
       // Random angle around the eye
@@ -356,10 +284,8 @@ export default function MysticalEye() {
       const x = centerX + Math.cos(angle) * distance - 50; // Offset for text width
       const y = centerY + Math.sin(angle) * distance;
 
-      // Set initial position and target
+      // Set position
       setTextPosition({ x, y });
-      targetTextX = x;
-      targetTextY = y;
 
       setShowScrollText(true);
       showScrollTextRef.current = true;
@@ -376,7 +302,6 @@ export default function MysticalEye() {
     setTimeout(showTextAtRandomPosition, 2000);
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
       clearInterval(blinkInterval);
       clearInterval(scrollTextInterval);
     };
