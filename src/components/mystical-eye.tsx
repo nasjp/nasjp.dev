@@ -86,6 +86,16 @@ export default function MysticalEye() {
         });
       }
 
+      // Move eyelashes to front and close eye
+      const centralEye = svg.querySelector("#central-eye");
+      const eyelashesGroup = svg.querySelector("#eyelashes-group");
+      const iris = svg.querySelector("#iris");
+
+      if (centralEye && eyelashesGroup && iris) {
+        // Move eyelashes group after iris so it appears on top
+        centralEye.appendChild(eyelashesGroup);
+      }
+
       // Close eye
       for (const line of eyelids) {
         line.setAttribute("y2", "300"); // Close to center
@@ -117,10 +127,23 @@ export default function MysticalEye() {
                 idx++;
               }
               isBlinkingRef.current = false;
+
+              // Move eyelashes back behind iris after double blink
+              const centralEye = svg.querySelector("#central-eye");
+              const eyelashesGroup = svg.querySelector("#eyelashes-group");
+              const iris = svg.querySelector("#iris");
+              if (centralEye && eyelashesGroup && iris) {
+                centralEye.insertBefore(eyelashesGroup, iris);
+              }
             }, 150);
           }, 100); // Shorter pause between blinks
         } else {
           isBlinkingRef.current = false;
+        }
+
+        // Move eyelashes back behind iris
+        if (centralEye && eyelashesGroup && iris) {
+          centralEye.insertBefore(eyelashesGroup, iris);
         }
       }, 150);
     };
@@ -261,58 +284,61 @@ export default function MysticalEye() {
             transition: "transform 0.3s ease",
           }}
         >
-          {/* Outer eyelash-like radiating lines */}
-          {isClient &&
-            Array.from({ length: 60 }, (_, i) => {
-              const angle = (i * 6 * Math.PI) / 180;
-              const innerRadius = 120;
-              const outerRadius = 160 + Math.sin(i * 0.5) * 20;
-              const x1 = 300 + Math.cos(angle) * innerRadius;
-              const y1 = 300 + Math.sin(angle) * innerRadius;
-              const x2 = 300 + Math.cos(angle) * outerRadius;
-              const y2 = 300 + Math.sin(angle) * outerRadius;
+          {/* Eyelashes group */}
+          <g id="eyelashes-group">
+            {/* Outer eyelash-like radiating lines */}
+            {isClient &&
+              Array.from({ length: 60 }, (_, i) => {
+                const angle = (i * 6 * Math.PI) / 180;
+                const innerRadius = 120;
+                const outerRadius = 160 + Math.sin(i * 0.5) * 20;
+                const x1 = 300 + Math.cos(angle) * innerRadius;
+                const y1 = 300 + Math.sin(angle) * innerRadius;
+                const x2 = 300 + Math.cos(angle) * outerRadius;
+                const y2 = 300 + Math.sin(angle) * outerRadius;
 
-              return (
-                <line
-                  // biome-ignore lint/suspicious/noArrayIndexKey: Static array with fixed positions
-                  key={`eyelash-outer-${i}`}
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
-                  stroke="#2c3e50"
-                  strokeWidth="1.5"
-                  opacity={0.8}
-                  className="eyelash-line"
-                />
-              );
-            })}
+                return (
+                  <line
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Static array with fixed positions
+                    key={`eyelash-outer-${i}`}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke="#2c3e50"
+                    strokeWidth="1.5"
+                    opacity={0.8}
+                    className="eyelash-line"
+                  />
+                );
+              })}
 
-          {/* Inner detailed radiating pattern */}
-          {isClient &&
-            Array.from({ length: 40 }, (_, i) => {
-              const angle = (i * 9 * Math.PI) / 180;
-              const innerRadius = 80;
-              const outerRadius = 115;
-              const x1 = 300 + Math.cos(angle) * innerRadius;
-              const y1 = 300 + Math.sin(angle) * innerRadius;
-              const x2 = 300 + Math.cos(angle) * outerRadius;
-              const y2 = 300 + Math.sin(angle) * outerRadius;
+            {/* Inner detailed radiating pattern */}
+            {isClient &&
+              Array.from({ length: 40 }, (_, i) => {
+                const angle = (i * 9 * Math.PI) / 180;
+                const innerRadius = 80;
+                const outerRadius = 115;
+                const x1 = 300 + Math.cos(angle) * innerRadius;
+                const y1 = 300 + Math.sin(angle) * innerRadius;
+                const x2 = 300 + Math.cos(angle) * outerRadius;
+                const y2 = 300 + Math.sin(angle) * outerRadius;
 
-              return (
-                <line
-                  // biome-ignore lint/suspicious/noArrayIndexKey: Static array with fixed positions
-                  key={`eyelash-inner-${i}`}
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
-                  stroke="#2c3e50"
-                  strokeWidth="1"
-                  opacity={0.9}
-                />
-              );
-            })}
+                return (
+                  <line
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Static array with fixed positions
+                    key={`eyelash-inner-${i}`}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke="#2c3e50"
+                    strokeWidth="1"
+                    opacity={0.9}
+                  />
+                );
+              })}
+          </g>
 
           {/* Central iris - dark blue circle */}
           <g
