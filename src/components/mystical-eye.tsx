@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 export default function MysticalEye() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [isClient, setIsClient] = useState(false);
+  const isBlinkingRef = useRef(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -13,7 +14,6 @@ export default function MysticalEye() {
 
     let mouseX = 300;
     let mouseY = 300;
-    let isBlinking = false;
     let pupilSize = 8;
     let blinkCount = 0;
 
@@ -72,25 +72,32 @@ export default function MysticalEye() {
 
     // Blinking animation
     const blink = (isDouble = false) => {
-      if (isBlinking) return;
+      if (isBlinkingRef.current) return;
 
-      isBlinking = true;
+      isBlinkingRef.current = true;
       const eyelids = svg.querySelectorAll(".eyelash-line");
+
+      // Store current positions before closing
+      const originalPositions: { x2: string; y2: string }[] = [];
+      for (const line of eyelids) {
+        originalPositions.push({
+          x2: line.getAttribute("x2") || "300",
+          y2: line.getAttribute("y2") || "300",
+        });
+      }
 
       // Close eye
       for (const line of eyelids) {
-        const currentY2 = line.getAttribute("y2");
-        line.setAttribute("data-original-y2", currentY2 || "");
         line.setAttribute("y2", "300"); // Close to center
       }
 
       // Open eye after 150ms
       setTimeout(() => {
+        // Restore original positions
+        let index = 0;
         for (const line of eyelids) {
-          const originalY2 = line.getAttribute("data-original-y2");
-          if (originalY2) {
-            line.setAttribute("y2", originalY2);
-          }
+          line.setAttribute("y2", originalPositions[index].y2);
+          index++;
         }
 
         // If double blink, do second blink
@@ -98,24 +105,22 @@ export default function MysticalEye() {
           setTimeout(() => {
             // Close again
             for (const line of eyelids) {
-              const currentY2 = line.getAttribute("y2");
-              line.setAttribute("data-original-y2", currentY2 || "");
               line.setAttribute("y2", "300");
             }
 
             // Open again
             setTimeout(() => {
+              // Restore original positions
+              let idx = 0;
               for (const line of eyelids) {
-                const originalY2 = line.getAttribute("data-original-y2");
-                if (originalY2) {
-                  line.setAttribute("y2", originalY2);
-                }
+                line.setAttribute("y2", originalPositions[idx].y2);
+                idx++;
               }
-              isBlinking = false;
+              isBlinkingRef.current = false;
             }, 150);
-          }, 150);
+          }, 100); // Shorter pause between blinks
         } else {
-          isBlinking = false;
+          isBlinkingRef.current = false;
         }
       }, 150);
     };
@@ -182,6 +187,52 @@ export default function MysticalEye() {
 
       animateColor();
     }
+
+    // Eyelash length animation
+    const animateEyelashes = () => {
+      const eyelashLines = svg.querySelectorAll(".eyelash-line");
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsed = (Date.now() - startTime) / 1000;
+
+        let index = 0;
+        for (const line of eyelashLines) {
+          // Skip animation if blinking
+          if (isBlinkingRef.current) {
+            index++;
+            continue;
+          }
+
+          const x1 = Number.parseFloat(line.getAttribute("x1") || "300");
+          const y1 = Number.parseFloat(line.getAttribute("y1") || "300");
+          const angle = Math.atan2(y1 - 300, x1 - 300);
+
+          // Create wave effect with phase shift based on index
+          const wavePhase = elapsed * 2 + index * 0.2;
+          const lengthMultiplier = 1 + Math.sin(wavePhase) * 0.3;
+
+          // Calculate new endpoint based on original angle and varying length
+          const baseLength = index < 60 ? 40 + Math.sin(index * 0.5) * 20 : 35;
+          const newLength = baseLength * lengthMultiplier;
+          const x2 = x1 + Math.cos(angle) * newLength;
+          const y2 = y1 + Math.sin(angle) * newLength;
+
+          line.setAttribute("x2", x2.toString());
+          line.setAttribute("y2", y2.toString());
+          index++;
+        }
+
+        requestAnimationFrame(animate);
+      };
+
+      animate();
+    };
+
+    // Start eyelash animation after a short delay
+    setTimeout(() => {
+      animateEyelashes();
+    }, 100);
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
