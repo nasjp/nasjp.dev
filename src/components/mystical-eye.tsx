@@ -213,7 +213,7 @@ export default function MysticalEye() {
         // 20秒周期でループ（黒5秒 + フェード3秒 + グラデーション9秒 + 黒に戻るフェード3秒）
         const loopDuration = 20;
         const loopTime = elapsed % loopDuration;
-        
+
         if (loopTime < 5) {
           // 0〜5秒：黒（20%）
           iris.setAttribute("fill", `hsl(0, 0%, 20%)`);
@@ -232,10 +232,11 @@ export default function MysticalEye() {
           // 17秒時点のグラデーション値を計算
           const endGradientValue = 40 + Math.sin(9 * 0.8) * 15;
           const fadeProgress = (loopTime - 17) / 3;
-          const lightness = endGradientValue - (endGradientValue - 20) * fadeProgress;
+          const lightness =
+            endGradientValue - (endGradientValue - 20) * fadeProgress;
           iris.setAttribute("fill", `hsl(0, 0%, ${lightness}%)`);
         }
-        
+
         requestAnimationFrame(animateColor);
       };
 
@@ -327,13 +328,13 @@ export default function MysticalEye() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white p-4">
+    <div className="flex items-center justify-center min-h-screen bg-white p-0 overflow-hidden">
       <svg
         ref={svgRef}
         width="800"
         height="800"
         viewBox="0 0 800 800"
-        className="w-full h-auto max-w-3xl"
+        className="w-[95vw] h-[95vw] sm:w-full sm:h-auto sm:max-w-xl md:max-w-2xl lg:max-w-3xl"
       >
         <title>nasjp.dev's watching you</title>
         {/* Background */}
