@@ -8,11 +8,20 @@ export default function MysticalEye() {
   const [showScrollText, setShowScrollText] = useState(false);
   const [textPosition, setTextPosition] = useState({ x: 200, y: 600 });
   const [eyeOpacity, setEyeOpacity] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const isBlinkingRef = useRef(false);
   const showScrollTextRef = useRef(false);
 
   useEffect(() => {
     setIsClient(true);
+
+    // モバイル判定
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
     const svg = svgRef.current;
     if (!svg) return;
 
@@ -313,8 +322,10 @@ export default function MysticalEye() {
     const showTextAtRandomPosition = () => {
       // Random angle around the eye
       const angle = Math.random() * Math.PI * 2;
-      // Distance from center (outside eyelashes)
-      const distance = 180 + Math.random() * 40; // 180-220 pixels from center
+      // Distance from center (outside eyelashes) - モバイルでは短く
+      const baseDistance = isMobile ? 120 : 180;
+      const randomOffset = isMobile ? 15 : 40;
+      const distance = baseDistance + Math.random() * randomOffset;
 
       // Calculate position
       const x = centerX + Math.cos(angle) * distance - 50; // Offset for text width
@@ -340,8 +351,9 @@ export default function MysticalEye() {
     return () => {
       clearInterval(blinkInterval);
       clearInterval(scrollTextInterval);
+      window.removeEventListener("resize", checkMobile);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white p-0 overflow-hidden">
@@ -350,7 +362,7 @@ export default function MysticalEye() {
         width="800"
         height="800"
         viewBox="0 0 800 800"
-        className="w-[95vw] h-[95vw] sm:w-full sm:h-auto sm:max-w-xl md:max-w-2xl lg:max-w-3xl"
+        className="w-[100vw] h-[100vw] sm:w-full sm:h-auto sm:max-w-xl md:max-w-2xl lg:max-w-3xl"
       >
         <title>nasjp.dev's watching you</title>
         {/* Background */}
