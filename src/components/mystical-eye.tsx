@@ -7,10 +7,12 @@ export default function MysticalEye() {
   const [isClient, setIsClient] = useState(false);
   const [showScrollText, setShowScrollText] = useState(false);
   const [textPosition, setTextPosition] = useState({ x: 200, y: 600 });
+  const [currentText, setCurrentText] = useState("scroll down!");
   const [eyeOpacity, setEyeOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const isBlinkingRef = useRef(false);
   const showScrollTextRef = useRef(false);
+  const textCountRef = useRef(0);
 
   useEffect(() => {
     setIsClient(true);
@@ -320,11 +322,40 @@ export default function MysticalEye() {
 
     // Function to show text at random position around eye
     const showTextAtRandomPosition = () => {
+      // 短い英語の挨拶リスト
+      const casualGreetings = [
+        "Hey",
+        "Yo",
+        "Sup?",
+        "Howdy",
+        "Hey there",
+        "Morning!",
+        "Evening!",
+        "You good?",
+        "All good?",
+        "Yo dude",
+        "Hey you",
+        "Hiya",
+        "OK?",
+        "Heya",
+        "You there?",
+      ];
+
+      // 最初の3回分は挨拶、以降は"scroll down!"
+      textCountRef.current += 1;
+      const displayText =
+        textCountRef.current <= 3
+          ? casualGreetings[Math.floor(Math.random() * casualGreetings.length)]
+          : "scroll down!";
+
+      setCurrentText(displayText);
+
       // Random angle around the eye
       const angle = Math.random() * Math.PI * 2;
       // Distance from center (outside eyelashes)
       const baseDistance = 180;
-      const randomOffset = isMobile ? 30 : 40;
+      const currentIsMobile = window.innerWidth < 640;
+      const randomOffset = currentIsMobile ? 30 : 40;
       const distance = baseDistance + Math.random() * randomOffset;
 
       // Calculate position
@@ -353,7 +384,7 @@ export default function MysticalEye() {
       clearInterval(scrollTextInterval);
       window.removeEventListener("resize", checkMobile);
     };
-  }, [isMobile]);
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white p-0 overflow-hidden">
@@ -549,7 +580,7 @@ export default function MysticalEye() {
             <circle cx="390" cy="390" r="8" fill="#d0d0d0" opacity="0.8" />
           </g>
 
-          {/* Scroll down text */}
+          {/* Dynamic text */}
           <text
             x={textPosition.x}
             y={textPosition.y}
@@ -562,7 +593,7 @@ export default function MysticalEye() {
               transition: "opacity 0.3s ease-in-out",
             }}
           >
-            scroll down
+            {currentText}
           </text>
         </g>
       </svg>
