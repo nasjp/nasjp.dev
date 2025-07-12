@@ -16,7 +16,7 @@ export default function Page() {
             height={300}
             className="filter contrast-125 brightness-110 saturate-0"
           />
-          <h1 className="text-6xl font-bold">nasjp.dev</h1>
+          <h1 className="text-5xl font-bold">nasjp.dev</h1>
         </div>
       </div>
     </>

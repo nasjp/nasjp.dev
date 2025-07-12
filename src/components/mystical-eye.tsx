@@ -210,13 +210,32 @@ export default function MysticalEye() {
 
       const animateColor = () => {
         const elapsed = (Date.now() - startTime) / 1000;
-        const saturation = 70 + Math.sin(elapsed * 3) * 20;
-        const lightness = 25 + Math.sin(elapsed * 2) * 10;
-
-        iris.setAttribute(
-          "fill",
-          `hsl(${220 + Math.sin(elapsed) * 40}, ${saturation}%, ${lightness}%)`,
-        );
+        // 20秒周期でループ（黒5秒 + フェード3秒 + グラデーション9秒 + 黒に戻るフェード3秒）
+        const loopDuration = 20;
+        const loopTime = elapsed % loopDuration;
+        
+        if (loopTime < 5) {
+          // 0〜5秒：黒（20%）
+          iris.setAttribute("fill", `hsl(0, 0%, 20%)`);
+        } else if (loopTime < 8) {
+          // 5〜8秒：黒からグレーにじわーっと変化
+          const fadeProgress = (loopTime - 5) / 3;
+          const lightness = 20 + fadeProgress * 20;
+          iris.setAttribute("fill", `hsl(0, 0%, ${lightness}%)`);
+        } else if (loopTime < 17) {
+          // 8〜17秒：グラデーションアニメーション（25%から55%）
+          const adjustedTime = loopTime - 8;
+          const lightness = 40 + Math.sin(adjustedTime * 0.8) * 15;
+          iris.setAttribute("fill", `hsl(0, 0%, ${lightness}%)`);
+        } else {
+          // 17〜20秒：グレーから黒にじわーっと戻る
+          // 17秒時点のグラデーション値を計算
+          const endGradientValue = 40 + Math.sin(9 * 0.8) * 15;
+          const fadeProgress = (loopTime - 17) / 3;
+          const lightness = endGradientValue - (endGradientValue - 20) * fadeProgress;
+          iris.setAttribute("fill", `hsl(0, 0%, ${lightness}%)`);
+        }
+        
         requestAnimationFrame(animateColor);
       };
 
@@ -396,7 +415,7 @@ export default function MysticalEye() {
               cx="400"
               cy="400"
               r="75"
-              fill="#1e3a8a"
+              fill="#4a4a4a"
               stroke="#2c3e50"
               strokeWidth="2"
             />
@@ -405,7 +424,7 @@ export default function MysticalEye() {
               cy="400"
               r="65"
               fill="none"
-              stroke="#3b82f6"
+              stroke="#707070"
               strokeWidth="1"
               opacity="0.6"
             />
@@ -416,7 +435,7 @@ export default function MysticalEye() {
               cy="400"
               r="55"
               fill="none"
-              stroke="#60a5fa"
+              stroke="#909090"
               strokeWidth="0.5"
               opacity="0.4"
             >
@@ -438,7 +457,7 @@ export default function MysticalEye() {
               cy="400"
               r="35"
               fill="none"
-              stroke="#93c5fd"
+              stroke="#b0b0b0"
               strokeWidth="0.5"
               opacity="0.3"
             >
@@ -481,7 +500,7 @@ export default function MysticalEye() {
                     y1={y1}
                     x2={x2}
                     y2={y2}
-                    stroke="#3b82f6"
+                    stroke="#707070"
                     strokeWidth="0.8"
                     opacity="0.7"
                   />
@@ -497,7 +516,7 @@ export default function MysticalEye() {
               transition: "transform 0.15s ease-out",
             }}
           >
-            <circle cx="390" cy="390" r="8" fill="#60a5fa" opacity="0.8" />
+            <circle cx="390" cy="390" r="8" fill="#d0d0d0" opacity="0.8" />
           </g>
 
           {/* Scroll down text */}
