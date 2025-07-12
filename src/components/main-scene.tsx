@@ -384,7 +384,7 @@ export default function MainScene() {
   }, [showProfile]);
 
   return (
-    <div className="min-h-screen bg-white relative">
+    <div className="h-dvh bg-white relative overflow-hidden">
       {/* 目のシーン */}
       <div
         className={`absolute inset-0 flex items-center justify-center p-0 overflow-hidden ${
