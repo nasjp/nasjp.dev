@@ -7,12 +7,11 @@ export default function MysticalEye() {
   const [isClient, setIsClient] = useState(false);
   const [showScrollText, setShowScrollText] = useState(false);
   const [textPosition, setTextPosition] = useState({ x: 200, y: 600 });
-  const [currentText, setCurrentText] = useState("scroll down!");
+  const [currentText, setCurrentText] = useState("Hey");
   const [eyeOpacity, setEyeOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const isBlinkingRef = useRef(false);
   const showScrollTextRef = useRef(false);
-  const textCountRef = useRef(0);
 
   useEffect(() => {
     setIsClient(true);
@@ -320,7 +319,7 @@ export default function MysticalEye() {
       animateEyelashes();
     }, 100);
 
-    // Function to show text at random position around eye
+    // Function to show greeting at random position around eye
     const showTextAtRandomPosition = () => {
       // 短い英語の挨拶リスト
       const casualGreetings = [
@@ -341,12 +340,9 @@ export default function MysticalEye() {
         "You there?",
       ];
 
-      // 最初の3回分は挨拶、以降は"scroll down!"
-      textCountRef.current += 1;
+      // ずっと挨拶で話しかける
       const displayText =
-        textCountRef.current <= 3
-          ? casualGreetings[Math.floor(Math.random() * casualGreetings.length)]
-          : "scroll down!";
+        casualGreetings[Math.floor(Math.random() * casualGreetings.length)];
 
       setCurrentText(displayText);
 
@@ -389,10 +385,10 @@ export default function MysticalEye() {
       }, 1000);
     };
 
-    // Show scroll text periodically
+    // Show greeting periodically
     const scrollTextInterval = setInterval(showTextAtRandomPosition, 5000);
 
-    // Show scroll text initially after 2 seconds
+    // Show greeting initially after 2 seconds
     setTimeout(showTextAtRandomPosition, 2000);
 
     return () => {
@@ -596,7 +592,7 @@ export default function MysticalEye() {
             <circle cx="390" cy="390" r="8" fill="#d0d0d0" opacity="0.8" />
           </g>
 
-          {/* Dynamic text */}
+          {/* Greeting text */}
           <text
             x={textPosition.x}
             y={textPosition.y}
