@@ -350,11 +350,27 @@ export default function MysticalEye() {
 
       setCurrentText(displayText);
 
-      // Random angle around the eye
-      const angle = Math.random() * Math.PI * 2;
+      // Random angle around the eye - モバイルでは角度制限
+      let angle: number;
+      const currentIsMobile = window.innerWidth < 640;
+
+      if (currentIsMobile) {
+        // モバイル：45度~135度 または 225度~315度の範囲
+        const ranges = [
+          { min: 45, max: 135 }, // 右上から右下
+          { min: 225, max: 315 }, // 左下から左上
+        ];
+        const selectedRange = ranges[Math.floor(Math.random() * ranges.length)];
+        const degrees =
+          selectedRange.min +
+          Math.random() * (selectedRange.max - selectedRange.min);
+        angle = (degrees * Math.PI) / 180;
+      } else {
+        // デスクトップ：全方向
+        angle = Math.random() * Math.PI * 2;
+      }
       // Distance from center (outside eyelashes)
       const baseDistance = 180;
-      const currentIsMobile = window.innerWidth < 640;
       const randomOffset = currentIsMobile ? 30 : 40;
       const distance = baseDistance + Math.random() * randomOffset;
 
