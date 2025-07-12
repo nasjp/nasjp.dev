@@ -232,7 +232,7 @@ export default function MysticalEye() {
 
         if (loopTime < 5) {
           // 0〜5秒：黒（20%）
-          iris.setAttribute("fill", `hsl(0, 0%, 20%)`);
+          iris.setAttribute("fill", "hsl(0, 0%, 20%)");
         } else if (loopTime < 8) {
           // 5〜8秒：黒からグレーにじわーっと変化
           const fadeProgress = (loopTime - 5) / 3;
