@@ -12,11 +12,11 @@ export default function Page() {
           <Image
             src="/gohan.png"
             alt="Gohan"
-            width={200}
-            height={200}
+            width={300}
+            height={300}
             className="filter contrast-125 brightness-110 saturate-0"
           />
-          <h1 className="text-4xl font-bold">nasjp.dev</h1>
+          <h1 className="text-6xl font-bold">nasjp.dev</h1>
         </div>
       </div>
     </>
