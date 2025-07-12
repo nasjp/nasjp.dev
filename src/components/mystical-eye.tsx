@@ -7,6 +7,7 @@ export default function MysticalEye() {
   const [isClient, setIsClient] = useState(false);
   const [showScrollText, setShowScrollText] = useState(false);
   const [textPosition, setTextPosition] = useState({ x: 200, y: 600 });
+  const [eyeOpacity, setEyeOpacity] = useState(0);
   const isBlinkingRef = useRef(false);
   const showScrollTextRef = useRef(false);
 
@@ -14,6 +15,21 @@ export default function MysticalEye() {
     setIsClient(true);
     const svg = svgRef.current;
     if (!svg) return;
+
+    // 3秒かけてフェードイン
+    const fadeInDuration = 3000;
+    const fadeInStartTime = Date.now();
+
+    const fadeIn = () => {
+      const elapsed = Date.now() - fadeInStartTime;
+      const progress = Math.min(elapsed / fadeInDuration, 1);
+      setEyeOpacity(progress);
+
+      if (progress < 1) {
+        requestAnimationFrame(fadeIn);
+      }
+    };
+    fadeIn();
 
     const centerX = 400;
     const centerY = 400;
@@ -346,6 +362,7 @@ export default function MysticalEye() {
           style={{
             transformOrigin: "400px 400px",
             transition: "transform 0.3s ease",
+            opacity: eyeOpacity,
           }}
         >
           {/* Eyelashes group */}
