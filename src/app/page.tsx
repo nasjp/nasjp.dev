@@ -1,11 +1,5 @@
-import MysticalEye from "../components/mystical-eye";
-import ProfileSection from "../components/profile-section";
+import MainScene from "../components/main-scene";
 
-export default async function Page() {
-  return (
-    <>
-      <MysticalEye />
-      <ProfileSection />
-    </>
-  );
+export default function Page() {
+  return <MainScene />;
 }

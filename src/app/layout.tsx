@@ -5,6 +5,9 @@ import "./globals.css";
 const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
   weight: ["400", "700"],
+  display: "swap",
+  preload: true,
+  variable: "--font-noto-serif-jp",
 });
 
 export const metadata: Metadata = {
@@ -19,7 +22,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={notoSerifJP.className}>{children}</body>
+      <body className={`${notoSerifJP.variable} ${notoSerifJP.className}`}>
+        {children}
+      </body>
     </html>
   );
 }
