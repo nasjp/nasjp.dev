@@ -580,6 +580,11 @@ export default function MainScene() {
             />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold">nasjp.dev</h1>
+          <p className="text-sm text-gray-600 text-center max-w-md leading-relaxed">
+            Software engineer, looking for
+            <br />
+            an adrenaline-pumping opportunity
+          </p>
         </div>
       </div>
     </div>
