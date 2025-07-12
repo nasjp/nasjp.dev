@@ -322,9 +322,9 @@ export default function MysticalEye() {
     const showTextAtRandomPosition = () => {
       // Random angle around the eye
       const angle = Math.random() * Math.PI * 2;
-      // Distance from center (outside eyelashes) - モバイルでは短く
-      const baseDistance = isMobile ? 120 : 180;
-      const randomOffset = isMobile ? 15 : 40;
+      // Distance from center (outside eyelashes)
+      const baseDistance = 180;
+      const randomOffset = isMobile ? 30 : 40;
       const distance = baseDistance + Math.random() * randomOffset;
 
       // Calculate position
@@ -361,8 +361,8 @@ export default function MysticalEye() {
         ref={svgRef}
         width="800"
         height="800"
-        viewBox="0 0 800 800"
-        className="w-[100vw] h-[100vw] sm:w-full sm:h-auto sm:max-w-xl md:max-w-2xl lg:max-w-3xl"
+        viewBox={isMobile ? "100 100 600 600" : "0 0 800 800"}
+        className="w-[85vw] h-[85vw] sm:w-full sm:h-auto sm:max-w-xl md:max-w-2xl lg:max-w-3xl"
       >
         <title>nasjp.dev's watching you</title>
         {/* Background */}
