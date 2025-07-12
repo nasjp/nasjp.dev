@@ -277,74 +277,111 @@ export default function MainScene() {
       animateEyelashes();
     }, 100);
 
-    // 挨拶テキスト表示
-    const showTextAtRandomPosition = () => {
-      const casualGreetings = [
-        "Hey",
-        "Yo",
-        "Sup?",
-        "Howdy",
-        "Hey there",
-        "Morning!",
-        "Evening!",
-        "You good?",
-        "All good?",
-        "Yo dude",
-        "Hey you",
-        "Hiya",
-        "OK?",
-        "Heya",
-        "You there?",
-      ];
-
-      const displayText =
-        casualGreetings[Math.floor(Math.random() * casualGreetings.length)];
-      setCurrentText(displayText);
-
-      let angle: number;
-      const currentIsMobile = window.innerWidth < 640;
-
-      if (currentIsMobile) {
-        const ranges = [
-          { min: 45, max: 135 },
-          { min: 225, max: 315 },
-        ];
-        const selectedRange = ranges[Math.floor(Math.random() * ranges.length)];
-        const degrees =
-          selectedRange.min +
-          Math.random() * (selectedRange.max - selectedRange.min);
-        angle = (degrees * Math.PI) / 180;
-      } else {
-        angle = Math.random() * Math.PI * 2;
-      }
-
-      const baseDistance = 180;
-      const randomOffset = currentIsMobile ? 30 : 40;
-      const distance = baseDistance + Math.random() * randomOffset;
-
-      const x = centerX + Math.cos(angle) * distance - 50;
-      const y = centerY + Math.sin(angle) * distance;
-
-      setTextPosition({ x, y });
-
-      setShowScrollText(true);
-      showScrollTextRef.current = true;
-      setTimeout(() => {
-        setShowScrollText(false);
-        showScrollTextRef.current = false;
-      }, 1000);
-    };
-
-    // 2回だけテキスト表示：初回は2秒後、2回目は7秒後
-    setTimeout(showTextAtRandomPosition, 2000);
-    setTimeout(showTextAtRandomPosition, 7000);
-
     return () => {
       clearInterval(blinkInterval);
       clearTimeout(transitionTimer);
       window.removeEventListener("resize", checkMobile);
     };
   }, []);
+
+  // ループ機能: プロフィールシーン表示後に目のシーンに戻る遷移
+  useEffect(() => {
+    if (!showProfile) return;
+
+    const loopTimer = setTimeout(() => {
+      setShowProfile(false);
+    }, 10000); // 10秒後に目のシーンに戻る
+
+    return () => {
+      clearTimeout(loopTimer);
+    };
+  }, [showProfile]);
+
+  // ループ機能: 目のシーン表示後にプロフィールシーンに戻る遷移
+  useEffect(() => {
+    if (showProfile) return;
+
+    const returnTimer = setTimeout(() => {
+      setShowProfile(true);
+    }, 10000); // 10秒後にプロフィールシーンに戻る
+
+    return () => {
+      clearTimeout(returnTimer);
+    };
+  }, [showProfile]);
+
+  // 目のシーン表示時にテキスト表示を1回実行
+  useEffect(() => {
+    if (showProfile) return;
+
+    const textTimer = setTimeout(() => {
+      const showTextAtRandomPosition = () => {
+        const casualGreetings = [
+          "Hey",
+          "Yo",
+          "Sup?",
+          "Howdy",
+          "Hey there",
+          "Morning!",
+          "Evening!",
+          "You good?",
+          "All good?",
+          "Yo dude",
+          "Hey you",
+          "Hiya",
+          "OK?",
+          "Heya",
+          "You there?",
+        ];
+
+        const displayText =
+          casualGreetings[Math.floor(Math.random() * casualGreetings.length)];
+        setCurrentText(displayText);
+
+        let angle: number;
+        const currentIsMobile = window.innerWidth < 640;
+
+        if (currentIsMobile) {
+          const ranges = [
+            { min: 45, max: 135 },
+            { min: 225, max: 315 },
+          ];
+          const selectedRange =
+            ranges[Math.floor(Math.random() * ranges.length)];
+          const degrees =
+            selectedRange.min +
+            Math.random() * (selectedRange.max - selectedRange.min);
+          angle = (degrees * Math.PI) / 180;
+        } else {
+          angle = Math.random() * Math.PI * 2;
+        }
+
+        const baseDistance = 180;
+        const randomOffset = currentIsMobile ? 30 : 40;
+        const distance = baseDistance + Math.random() * randomOffset;
+
+        const centerX = 400;
+        const centerY = 400;
+        const x = centerX + Math.cos(angle) * distance - 50;
+        const y = centerY + Math.sin(angle) * distance;
+
+        setTextPosition({ x, y });
+
+        setShowScrollText(true);
+        showScrollTextRef.current = true;
+        setTimeout(() => {
+          setShowScrollText(false);
+          showScrollTextRef.current = false;
+        }, 1000);
+      };
+
+      showTextAtRandomPosition();
+    }, 6000); // フェード完了後（5秒）+ 1秒余裕でテキスト表示
+
+    return () => {
+      clearTimeout(textTimer);
+    };
+  }, [showProfile]);
 
   return (
     <div className="min-h-screen bg-white relative">
