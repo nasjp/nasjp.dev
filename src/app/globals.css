@@ -1,18 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Critical CSS for above-the-fold content */
-@layer base {
-  body {
-    background-color: #ffffff;
-    margin: 0;
-    padding: 0;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
+/* Essential resets only */
+* {
+  box-sizing: border-box;
 }
-
-/* Removed unused CSS variables and dark mode styles */

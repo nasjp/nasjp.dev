@@ -609,7 +609,7 @@ export default function MainScene() {
         <div className="flex flex-col items-center gap-4 sm:gap-6">
           <div className="w-[60vw] h-[60vw] sm:w-[300px] sm:h-[300px] flex items-center justify-center">
             <Image
-              src="/gohan.png"
+              src="/gohan.webp"
               alt="Gohan"
               width={360}
               height={343}

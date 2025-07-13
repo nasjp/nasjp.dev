@@ -6,7 +6,7 @@ const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
-  preload: true,
+  preload: false, // サブセット化により軽量化
   variable: "--font-noto-serif-jp",
   adjustFontFallback: true,
 });
@@ -16,22 +16,8 @@ export const metadata: Metadata = {
   description: "nasjp.dev",
 };
 
-const criticalCSS = `
-  body{margin:0;padding:0;background-color:#fff}
-  *{box-sizing:border-box}
-  .h-dvh{height:100dvh}
-  .bg-white{background-color:#fff}
-  .relative{position:relative}
-  .overflow-hidden{overflow:hidden}
-  .absolute{position:absolute}
-  .inset-0{inset:0}
-  .flex{display:flex}
-  .items-center{align-items:center}
-  .justify-center{justify-content:center}
-  .p-0{padding:0}
-  .opacity-100{opacity:1}
-  .opacity-0{opacity:0}
-`;
+const criticalCSS =
+  "*{box-sizing:border-box}body{margin:0;padding:0;background:#fff}.h-dvh{height:100dvh}.bg-white{background:#fff}.relative{position:relative}.overflow-hidden{overflow:hidden}.absolute{position:absolute}.inset-0{inset:0}.flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}.opacity-100{opacity:1}.opacity-0{opacity:0}";
 
 export default async function RootLayout({
   children,
@@ -43,6 +29,18 @@ export default async function RootLayout({
       <head>
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Critical CSS for performance */}
         <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
+        <link rel="preload" as="image" href="/gohan.webp" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className={`${notoSerifJP.variable} ${notoSerifJP.className}`}>
         {children}
