@@ -1,8 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Essential resets only */
+/* Essential CSS resets and base styles */
 * {
   box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-noto-serif-jp), serif;
+  -webkit-font-smoothing: antialiased;
 }

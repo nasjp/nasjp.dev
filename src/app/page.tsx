@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
 const MainScene = dynamic(() => import("../components/main-scene"), {
-  loading: () => <div className="h-dvh bg-white" />,
+  loading: () => <div style={{ height: "100dvh", backgroundColor: "white" }} />,
   ssr: true,
 });
 

@@ -11,6 +11,7 @@ export default function MainScene() {
   const [currentText, setCurrentText] = useState("Hey");
   const [eyeOpacity, setEyeOpacity] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const [showProfile, setShowProfile] = useState(false);
   const isBlinkingRef = useRef(false);
   const showScrollTextRef = useRef(false);
@@ -18,12 +19,15 @@ export default function MainScene() {
   useEffect(() => {
     setIsClient(true);
 
-    // モバイル判定
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
+    // ウィンドウサイズ監視
+    const updateWindowSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setWindowSize({ width, height });
+      setIsMobile(width < 640);
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+    updateWindowSize();
+    window.addEventListener("resize", updateWindowSize);
 
     // 10秒後にプロフィールに遷移
     const transitionTimer = setTimeout(() => {
@@ -33,7 +37,7 @@ export default function MainScene() {
     const svg = svgRef.current;
     if (!svg) {
       clearTimeout(transitionTimer);
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("resize", updateWindowSize);
       return;
     }
 
@@ -280,7 +284,7 @@ export default function MainScene() {
     return () => {
       clearInterval(blinkInterval);
       clearTimeout(transitionTimer);
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("resize", updateWindowSize);
     };
   }, []);
 
@@ -383,14 +387,108 @@ export default function MainScene() {
     };
   }, [showProfile]);
 
+  // レスポンシブスタイル計算
+  const getSvgStyle = () => {
+    const { width } = windowSize;
+    if (width < 640) {
+      // モバイル
+      return { width: "85vw", height: "85vw" };
+    }
+    if (width < 768) {
+      // sm: タブレット
+      return { width: "100%", height: "auto", maxWidth: "576px" };
+    }
+    if (width < 1024) {
+      // md: デスクトップ
+      return { width: "100%", height: "auto", maxWidth: "672px" };
+    }
+    // lg: 大画面
+    return { width: "100%", height: "auto", maxWidth: "768px" };
+  };
+
+  const getProfileContainerStyle = () => {
+    const { width } = windowSize;
+    return {
+      position: "absolute" as const,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "white",
+      padding: width >= 640 ? "16px" : "0",
+      opacity: showProfile ? 1 : 0,
+      transition: "opacity 5s ease-in-out",
+    };
+  };
+
+  const getImageContainerStyle = () => {
+    const { width } = windowSize;
+    return {
+      width: width >= 640 ? "300px" : "60vw",
+      height: width >= 640 ? "300px" : "60vw",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    };
+  };
+
+  const getGapStyle = () => {
+    const { width } = windowSize;
+    return {
+      display: "flex",
+      flexDirection: "column" as const,
+      alignItems: "center",
+      gap: width >= 640 ? "24px" : "16px",
+    };
+  };
+
+  const getTitleStyle = () => {
+    const { width } = windowSize;
+    return {
+      fontSize: width >= 640 ? "3rem" : "2.25rem", // text-5xl : text-4xl
+      lineHeight: width >= 640 ? "1" : "1",
+      fontWeight: "bold" as const,
+      margin: 0,
+    };
+  };
+
+  const getTextStyle = () => {
+    return {
+      fontSize: "0.875rem", // text-sm
+      color: "#4b5563", // text-gray-600
+      textAlign: "center" as const,
+      maxWidth: "28rem", // max-w-md
+      lineHeight: "1.625", // leading-relaxed
+      margin: 0,
+    };
+  };
+
   return (
-    <div className="h-dvh bg-white relative overflow-hidden">
+    <div
+      style={{
+        height: "100dvh",
+        backgroundColor: "white",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       {/* 目のシーン */}
       <div
-        className={`absolute inset-0 flex items-center justify-center p-0 overflow-hidden ${
-          showProfile ? "opacity-0" : "opacity-100"
-        }`}
         style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 0,
+          overflow: "hidden",
+          opacity: showProfile ? 0 : 1,
           transition: "opacity 5s ease-in-out",
         }}
       >
@@ -399,7 +497,7 @@ export default function MainScene() {
           width="800"
           height="800"
           viewBox={isMobile ? "100 100 600 600" : "0 0 800 800"}
-          className="w-[85vw] h-[85vw] sm:w-full sm:h-auto sm:max-w-xl md:max-w-2xl lg:max-w-3xl"
+          style={getSvgStyle()}
         >
           <title>nasjp.dev's watching you</title>
           <rect width="800" height="800" fill="#ffffff" />
@@ -598,27 +696,26 @@ export default function MainScene() {
       </div>
 
       {/* プロフィールシーン */}
-      <div
-        className={`absolute inset-0 flex items-center justify-center bg-white p-0 sm:p-4 ${
-          showProfile ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          transition: "opacity 5s ease-in-out",
-        }}
-      >
-        <div className="flex flex-col items-center gap-4 sm:gap-6">
-          <div className="w-[60vw] h-[60vw] sm:w-[300px] sm:h-[300px] flex items-center justify-center">
+      <div style={getProfileContainerStyle()}>
+        <div style={getGapStyle()}>
+          <div style={getImageContainerStyle()}>
             <Image
               src="/gohan.webp"
               alt="Gohan"
               width={360}
               height={343}
               loading="lazy"
-              className="w-full h-auto max-h-full object-contain filter contrast-125 brightness-110 saturate-0"
+              style={{
+                width: "100%",
+                height: "auto",
+                maxHeight: "100%",
+                objectFit: "contain",
+                filter: "contrast(1.25) brightness(1.1) saturate(0)",
+              }}
             />
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold">nasjp.dev</h1>
-          <p className="text-sm text-gray-600 text-center max-w-md leading-relaxed">
+          <h1 style={getTitleStyle()}>nasjp.dev</h1>
+          <p style={getTextStyle()}>
             Software engineer, looking for
             <br />
             an adrenaline-pumping opportunity
