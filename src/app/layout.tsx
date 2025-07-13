@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Noto_Serif_JP } from "next/font/google";
-import "./globals.css";
 
 const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
-  preload: true,
+  preload: false,
   variable: "--font-noto-serif-jp",
   adjustFontFallback: true,
 });
@@ -23,6 +22,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <style
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Critical CSS for performance
+          dangerouslySetInnerHTML={{
+            __html: `
+              * {
+                box-sizing: border-box;
+              }
+              body {
+                margin: 0;
+                padding: 0;
+                font-family: var(--font-noto-serif-jp), serif;
+                -webkit-font-smoothing: antialiased;
+              }
+            `,
+          }}
+        />
+      </head>
       <body className={`${notoSerifJP.variable} ${notoSerifJP.className}`}>
         {children}
       </body>
