@@ -10,7 +10,7 @@ const config = {
           discardComments: { removeAll: true },
           reduceIdents: true,
           mergeIdents: true,
-          normalizeWhitespace: true,
+          normalizeWhitespace: false,
         }],
       },
     } : {}),

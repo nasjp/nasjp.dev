@@ -29,7 +29,6 @@ export default async function RootLayout({
       <head>
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Critical CSS for performance */}
         <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
-        <link rel="preload" as="image" href="/gohan.webp" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
