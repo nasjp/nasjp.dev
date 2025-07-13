@@ -607,13 +607,13 @@ export default function MainScene() {
         }}
       >
         <div className="flex flex-col items-center gap-4 sm:gap-6">
-          <div className="w-[60vw] h-[60vw] sm:w-[300px] sm:h-[300px]">
+          <div className="w-[60vw] h-[60vw] sm:w-[300px] sm:h-[300px] flex items-center justify-center">
             <Image
               src="/gohan.png"
               alt="Gohan"
-              width={300}
-              height={300}
-              className="w-full h-full filter contrast-125 brightness-110 saturate-0"
+              width={360}
+              height={343}
+              className="w-full h-auto max-h-full object-contain filter contrast-125 brightness-110 saturate-0"
             />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold">nasjp.dev</h1>
