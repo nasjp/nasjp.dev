@@ -1,5 +1,3 @@
-import cssnanoPresetAdvanced from 'cssnano-preset-advanced';
-
 /** @type {import('postcss-load-config').Config} */
 const config = {
   plugins: {
@@ -7,11 +5,9 @@ const config = {
     autoprefixer: {},
     ...(process.env.NODE_ENV === 'production' ? {
       cssnano: {
-        preset: [cssnanoPresetAdvanced, {
+        preset: ['default', {
           discardComments: { removeAll: true },
-          reduceIdents: true,
-          mergeIdents: true,
-          normalizeWhitespace: false,
+          normalizeWhitespace: true,
         }],
       },
     } : {}),
