@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
+import ServiceWorkerRegister from "@/components/service-worker-register";
 
 const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${notoSerifJP.variable} ${notoSerifJP.className}`}>
+        <ServiceWorkerRegister />
         {children}
       </body>
     </html>
