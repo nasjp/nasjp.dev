@@ -613,6 +613,7 @@ export default function MainScene() {
               alt="Gohan"
               width={360}
               height={343}
+              loading="lazy"
               className="w-full h-auto max-h-full object-contain filter contrast-125 brightness-110 saturate-0"
             />
           </div>
