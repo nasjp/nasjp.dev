@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     formats: ['image/webp', 'image/avif'],
   },
   // JavaScript最適化設定
-  productionBrowserSourceMaps: false,
+  productionBrowserSourceMaps: true,
   // 実験的機能
   experimental: {
     optimizePackageImports: ['react', 'react-dom'],

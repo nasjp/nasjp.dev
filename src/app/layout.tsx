@@ -6,7 +6,7 @@ const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
-  preload: false, // サブセット化により軽量化
+  preload: true,
   variable: "--font-noto-serif-jp",
   adjustFontFallback: true,
 });
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 const criticalCSS =
-  "*{box-sizing:border-box}body{margin:0;padding:0;background:#fff}.h-dvh{height:100dvh}.bg-white{background:#fff}.relative{position:relative}.overflow-hidden{overflow:hidden}.absolute{position:absolute}.inset-0{inset:0}.flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}.opacity-100{opacity:1}.opacity-0{opacity:0}";
+  "*,::before,::after{box-sizing:border-box}body{margin:0;padding:0;background:#fff;font-family:var(--font-noto-serif-jp),serif;-webkit-font-smoothing:antialiased}svg{display:block}.h-dvh{height:100dvh}.bg-white{background:#fff}.relative{position:relative}.overflow-hidden{overflow:hidden}.absolute{position:absolute}.inset-0{inset:0}.flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}.opacity-100{opacity:1}.opacity-0{opacity:0}.transition-opacity{transition-property:opacity}.duration-5000{transition-duration:5s}.ease-in-out{transition-timing-function:ease-in-out}";
 
 export default async function RootLayout({
   children,
